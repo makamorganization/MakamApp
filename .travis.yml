@@ -1,0 +1,12 @@
+os:
+- linux
+language: java
+jdk:
+- oraclejdk8
+before_install:
+- jdk_switcher use oraclejdk8
+- chmod +x mvnw
+- sudo /etc/init.d/postgresql stop
+script:
+- ./mvnw clean test
+- ./mvnw verify -Pprod -DskipTests
