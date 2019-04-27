@@ -1,21 +1,13 @@
 os:
 - linux
-language: node_js
-node_js:
-- "10.15.3"
+language: java
 jdk:
 - oraclejdk8
 before_install:
 - jdk_switcher use oraclejdk8
 - java -version
 - sudo /etc/init.d/postgresql stop
-# Repo for Yarn
-- curl -o- -L https://yarnpkg.com/install.sh | bash
-- export PATH=$HOME/.yarn/bin:$PATH
-install:
-- yarn install
 script:
 - chmod +x mvnw
 - ./mvnw clean test
-- yarn test
 - ./mvnw verify -Pprod -DskipTests
