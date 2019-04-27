@@ -1,0 +1,11 @@
+version: '2'
+services:
+    makam-postgresql:
+        image: postgres:10.4
+        # volumes:
+        #     - ~/volumes/jhipster/Makam/postgresql/:/var/lib/postgresql/data/
+        environment:
+            - POSTGRES_USER=Makam
+            - POSTGRES_PASSWORD=
+        ports:
+            - 5432:5432

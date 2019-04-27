@@ -1,0 +1,39 @@
+{
+  "generator-jhipster": {
+    "applicationType": "monolith",
+    "gitCompany": "",
+    "baseName": "Makam",
+    "packageName": "makam.application",
+    "packageFolder": "makam/application",
+    "serverPort": 8080,
+    "serviceDiscoveryType": false,
+    "authenticationType": "jwt",
+    "uaaBaseName": "../uaa",
+    "cacheProvider": "ehcache",
+    "enableHibernateCache": true,
+    "websocket": false,
+    "databaseType": "sql",
+    "devDatabaseType": "h2Memory",
+    "prodDatabaseType": "postgresql",
+    "searchEngine": false,
+    "enableSwaggerCodegen": false,
+    "messageBroker": false,
+    "buildTool": "maven",
+    "useSass": true,
+    "clientPackageManager": "npm",
+    "testFrameworks": [],
+    "enableTranslation": true,
+    "nativeLanguage": "pl",
+    "languages": [
+      "en",
+      "pl"
+    ],
+    "clientFramework": "react",
+    "jhiPrefix": "jhi",
+    "jhipsterVersion": "5.8.2",
+    "jwtSecretKey": "NmZkNjRjNDNiMzAzZmY1YmYwYjM4Y2E1YTEyNTY4MmVkNjM4NzkwYTEwZTMwYmM4MGU2NTY3MGRkMDcwNDcwOTc5MzExOTFiMjJhOTdhODYzMjc4Yzc2ZTliOTA0NmRlMmM4NTg0NWVjN2VlYmIxODk3YmYzM2E2MmY3NDY1NDQ=",
+    "entitySuffix": "",
+    "dtoSuffix": "DTO",
+    "otherModules": []
+  }
+}
