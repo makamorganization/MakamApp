@@ -5,9 +5,8 @@ jdk:
 - oraclejdk8
 before_install:
 - jdk_switcher use oraclejdk8
-- java -version
+- chmod +x mvnw
 - sudo /etc/init.d/postgresql stop
 script:
-- chmod +x mvnw
 - ./mvnw clean test
 - ./mvnw verify -Pprod -DskipTests
