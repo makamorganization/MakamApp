@@ -96,7 +96,6 @@ public class User extends AbstractAuditingEntity implements Serializable {
     private Set<Authority> authorities = new HashSet<>();
 
     @OneToOne
-    @JoinColumn(unique = true)
     private UserDetails userDetails;
 
     public UserDetails getUserDetails() {
