@@ -389,7 +389,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <mainClass>${start-class}</mainClass>
+                    <!--<mainClass>${start-class}</mainClass>-->
                     <executable>true</executable>
                     <fork>true</fork>
                     <!--
@@ -643,7 +643,7 @@
                         <!-- Fixes a bug which will be solved in next version after 2.22.1 then this can be removed -->
                         <!-- see: https://issues.apache.org/jira/browse/SUREFIRE-1588 -->
                         <useSystemClassLoader>false</useSystemClassLoader>
-                        <outputDirectory>${sonar.junit.reportsPath}</outputDirectory>
+                        <!--<outputDirectory>${sonar.junit.reportsPath}</outputDirectory>-->
                     </configuration>
                 </plugin>
                 <plugin>
@@ -876,7 +876,7 @@
                         <groupId>org.springframework.boot</groupId>
                         <artifactId>spring-boot-maven-plugin</artifactId>
                         <configuration>
-                            <mainClass>${start-class}</mainClass>
+                            <!--<mainClass>${start-class}</mainClass>-->
                             <executable>true</executable>
                         </configuration>
                         <executions>
@@ -934,10 +934,10 @@
                             </execution>
                         </executions>
                     </plugin>
-                    <plugin>
-                        <groupId>pl.project13.maven</groupId>
-                        <artifactId>git-commit-id-plugin</artifactId>
-                    </plugin>
+                    <!--<plugin>-->
+                        <!--<groupId>pl.project13.maven</groupId>-->
+                        <!--<artifactId>git-commit-id-plugin</artifactId>-->
+                    <!--</plugin>-->
                 </plugins>
             </build>
             <properties>
@@ -981,7 +981,7 @@
                         <groupId>org.springframework.boot</groupId>
                         <artifactId>spring-boot-maven-plugin</artifactId>
                         <configuration>
-                            <mainClass>${start-class}</mainClass>
+                            <!--<mainClass>${start-class}</mainClass>-->
                             <executable>true</executable>
                             <fork>true</fork>
                             <addResources>true</addResources>
@@ -1005,10 +1005,10 @@
                             </execution>
                         </executions>
                     </plugin>
-                    <plugin>
-                        <groupId>net.alchim31.maven</groupId>
-                        <artifactId>scala-maven-plugin</artifactId>
-                    </plugin>
+                    <!--<plugin>-->
+                        <!--<groupId>net.alchim31.maven</groupId>-->
+                        <!--<artifactId>scala-maven-plugin</artifactId>-->
+                    <!--</plugin>-->
                 </plugins>
             </build>
             <properties>
