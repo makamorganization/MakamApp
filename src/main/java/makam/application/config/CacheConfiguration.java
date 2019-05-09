@@ -38,6 +38,15 @@ public class CacheConfiguration {
             cm.createCache(makam.application.domain.User.class.getName(), jcacheConfiguration);
             cm.createCache(makam.application.domain.Authority.class.getName(), jcacheConfiguration);
             cm.createCache(makam.application.domain.User.class.getName() + ".authorities", jcacheConfiguration);
+            cm.createCache(makam.application.domain.Course.class.getName(), jcacheConfiguration);
+            cm.createCache(makam.application.domain.Course.class.getName() + ".courseParticipants", jcacheConfiguration);
+            cm.createCache(makam.application.domain.UserDetails.class.getName(), jcacheConfiguration);
+            cm.createCache(makam.application.domain.UserDetails.class.getName() + ".certificates", jcacheConfiguration);
+            cm.createCache(makam.application.domain.UserDetails.class.getName() + ".achievementDictionaries", jcacheConfiguration);
+            cm.createCache(makam.application.domain.CourseParticipant.class.getName(), jcacheConfiguration);
+            cm.createCache(makam.application.domain.Certificate.class.getName(), jcacheConfiguration);
+            cm.createCache(makam.application.domain.AchievementDictionary.class.getName(), jcacheConfiguration);
+            cm.createCache(makam.application.domain.AchievementDictionary.class.getName() + ".userDetails", jcacheConfiguration);
             // jhipster-needle-ehcache-add-entry
         };
     }

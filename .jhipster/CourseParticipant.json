@@ -1,0 +1,42 @@
+{
+    "name": "CourseParticipant",
+    "fields": [
+        {
+            "fieldName": "isUserPresent",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "isUserLate",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "canCancelCourseAttendance",
+            "fieldType": "Boolean"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipName": "course",
+            "otherEntityName": "course",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "one-to-one",
+            "otherEntityName": "userDetails",
+            "otherEntityRelationshipName": "courseParticipant",
+            "relationshipName": "user",
+            "otherEntityField": "id",
+            "ownerSide": true
+        }
+    ],
+    "changelogDate": "20190509165552",
+    "entityTableName": "course_participant",
+    "dto": "no",
+    "pagination": "no",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

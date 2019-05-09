@@ -1,0 +1,54 @@
+//Szkolenie
+//duration to czas trwania szkolenia, w mintuach bym wyrazil */
+entity Course {
+    title String,
+    description String,
+    courseStartDate LocalDate,
+    courseEndDate LocalDate,
+    registerStartDate LocalDate,
+    registerEndDate LocalDate,
+    duration Long,
+    maximumNumberOfParticipants Integer
+}
+
+//to tak chwilowo bo trzeba polaczyc z encja usera w jhipsterze
+entity UserDetails {
+	studentCardNumber Integer
+}
+
+//Uczestnik szkolenia
+entity CourseParticipant {
+    isUserPresent Boolean,
+    isUserLate Boolean,
+    canCancelCourseAttendance Boolean
+}
+
+//nie wiem czy jakby to byl pdf to trzymac to w base_64 czy BLOB ?
+entity Certificate {
+	title String,
+    content String
+}
+
+entity AchievementDictionary {
+	key String,
+    value String,
+    enabled Boolean
+}
+
+relationship OneToMany {
+	Course{courseParticipant} to CourseParticipant,
+    UserDetails{certificate} to Certificate,
+}
+
+relationship ManyToMany {
+	UserDetails{achievementDictionary} to AchievementDictionary{userDetails}
+}
+
+relationship OneToOne {
+	CourseParticipant{user} to UserDetails{courseParticipant},
+    Certificate{course} to Course{certificate}
+}
+
+service all with serviceImpl
+
+

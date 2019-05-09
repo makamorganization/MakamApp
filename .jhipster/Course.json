@@ -1,0 +1,61 @@
+{
+    "name": "Course",
+    "fields": [
+        {
+            "fieldName": "title",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "description",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "courseStartDate",
+            "fieldType": "LocalDate"
+        },
+        {
+            "fieldName": "courseEndDate",
+            "fieldType": "LocalDate"
+        },
+        {
+            "fieldName": "registerStartDate",
+            "fieldType": "LocalDate"
+        },
+        {
+            "fieldName": "registerEndDate",
+            "fieldType": "LocalDate"
+        },
+        {
+            "fieldName": "duration",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "maximumNumberOfParticipants",
+            "fieldType": "Integer"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "one-to-many",
+            "otherEntityName": "courseParticipant",
+            "otherEntityRelationshipName": "course",
+            "relationshipName": "courseParticipant"
+        },
+        {
+            "relationshipType": "one-to-one",
+            "otherEntityName": "certificate",
+            "otherEntityRelationshipName": "course",
+            "relationshipName": "certificate",
+            "ownerSide": false
+        }
+    ],
+    "changelogDate": "20190509165550",
+    "entityTableName": "course",
+    "dto": "no",
+    "pagination": "no",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}
