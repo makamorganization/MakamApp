@@ -4,6 +4,7 @@ import makam.application.MakamApp;
 
 import makam.application.domain.AchievementDictionary;
 import makam.application.repository.AchievementDictionaryRepository;
+import makam.application.service.AchievementDictionaryService;
 import makam.application.web.rest.errors.ExceptionTranslator;
 
 import org.junit.Before;
@@ -53,6 +54,9 @@ public class AchievementDictionaryResourceIntTest {
     private AchievementDictionaryRepository achievementDictionaryRepository;
 
     @Autowired
+    private AchievementDictionaryService achievementDictionaryService;
+
+    @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Autowired
@@ -74,7 +78,7 @@ public class AchievementDictionaryResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final AchievementDictionaryResource achievementDictionaryResource = new AchievementDictionaryResource(achievementDictionaryRepository);
+        final AchievementDictionaryResource achievementDictionaryResource = new AchievementDictionaryResource(achievementDictionaryService);
         this.restAchievementDictionaryMockMvc = MockMvcBuilders.standaloneSetup(achievementDictionaryResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -185,7 +189,7 @@ public class AchievementDictionaryResourceIntTest {
     @Transactional
     public void updateAchievementDictionary() throws Exception {
         // Initialize the database
-        achievementDictionaryRepository.saveAndFlush(achievementDictionary);
+        achievementDictionaryService.save(achievementDictionary);
 
         int databaseSizeBeforeUpdate = achievementDictionaryRepository.findAll().size();
 
@@ -234,7 +238,7 @@ public class AchievementDictionaryResourceIntTest {
     @Transactional
     public void deleteAchievementDictionary() throws Exception {
         // Initialize the database
-        achievementDictionaryRepository.saveAndFlush(achievementDictionary);
+        achievementDictionaryService.save(achievementDictionary);
 
         int databaseSizeBeforeDelete = achievementDictionaryRepository.findAll().size();
 

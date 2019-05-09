@@ -4,6 +4,7 @@ import makam.application.MakamApp;
 
 import makam.application.domain.Certificate;
 import makam.application.repository.CertificateRepository;
+import makam.application.service.CertificateService;
 import makam.application.web.rest.errors.ExceptionTranslator;
 
 import org.junit.Before;
@@ -50,6 +51,9 @@ public class CertificateResourceIntTest {
     private CertificateRepository certificateRepository;
 
     @Autowired
+    private CertificateService certificateService;
+
+    @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Autowired
@@ -71,7 +75,7 @@ public class CertificateResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final CertificateResource certificateResource = new CertificateResource(certificateRepository);
+        final CertificateResource certificateResource = new CertificateResource(certificateService);
         this.restCertificateMockMvc = MockMvcBuilders.standaloneSetup(certificateResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -178,7 +182,7 @@ public class CertificateResourceIntTest {
     @Transactional
     public void updateCertificate() throws Exception {
         // Initialize the database
-        certificateRepository.saveAndFlush(certificate);
+        certificateService.save(certificate);
 
         int databaseSizeBeforeUpdate = certificateRepository.findAll().size();
 
@@ -225,7 +229,7 @@ public class CertificateResourceIntTest {
     @Transactional
     public void deleteCertificate() throws Exception {
         // Initialize the database
-        certificateRepository.saveAndFlush(certificate);
+        certificateService.save(certificate);
 
         int databaseSizeBeforeDelete = certificateRepository.findAll().size();
 

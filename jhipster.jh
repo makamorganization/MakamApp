@@ -49,4 +49,6 @@ relationship OneToOne {
     Certificate{course} to Course{certificate}
 }
 
+service all with serviceImpl
+
 

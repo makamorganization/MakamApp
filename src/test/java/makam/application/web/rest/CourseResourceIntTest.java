@@ -4,6 +4,7 @@ import makam.application.MakamApp;
 
 import makam.application.domain.Course;
 import makam.application.repository.CourseRepository;
+import makam.application.service.CourseService;
 import makam.application.web.rest.errors.ExceptionTranslator;
 
 import org.junit.Before;
@@ -70,6 +71,9 @@ public class CourseResourceIntTest {
     private CourseRepository courseRepository;
 
     @Autowired
+    private CourseService courseService;
+
+    @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Autowired
@@ -91,7 +95,7 @@ public class CourseResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final CourseResource courseResource = new CourseResource(courseRepository);
+        final CourseResource courseResource = new CourseResource(courseService);
         this.restCourseMockMvc = MockMvcBuilders.standaloneSetup(courseResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -222,7 +226,7 @@ public class CourseResourceIntTest {
     @Transactional
     public void updateCourse() throws Exception {
         // Initialize the database
-        courseRepository.saveAndFlush(course);
+        courseService.save(course);
 
         int databaseSizeBeforeUpdate = courseRepository.findAll().size();
 
@@ -281,7 +285,7 @@ public class CourseResourceIntTest {
     @Transactional
     public void deleteCourse() throws Exception {
         // Initialize the database
-        courseRepository.saveAndFlush(course);
+        courseService.save(course);
 
         int databaseSizeBeforeDelete = courseRepository.findAll().size();
 

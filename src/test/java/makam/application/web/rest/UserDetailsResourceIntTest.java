@@ -4,6 +4,7 @@ import makam.application.MakamApp;
 
 import makam.application.domain.UserDetails;
 import makam.application.repository.UserDetailsRepository;
+import makam.application.service.UserDetailsService;
 import makam.application.web.rest.errors.ExceptionTranslator;
 
 import org.junit.Before;
@@ -54,6 +55,12 @@ public class UserDetailsResourceIntTest {
     @Mock
     private UserDetailsRepository userDetailsRepositoryMock;
 
+    @Mock
+    private UserDetailsService userDetailsServiceMock;
+
+    @Autowired
+    private UserDetailsService userDetailsService;
+
     @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
@@ -76,7 +83,7 @@ public class UserDetailsResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final UserDetailsResource userDetailsResource = new UserDetailsResource(userDetailsRepository);
+        final UserDetailsResource userDetailsResource = new UserDetailsResource(userDetailsService);
         this.restUserDetailsMockMvc = MockMvcBuilders.standaloneSetup(userDetailsResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -155,8 +162,8 @@ public class UserDetailsResourceIntTest {
     
     @SuppressWarnings({"unchecked"})
     public void getAllUserDetailsWithEagerRelationshipsIsEnabled() throws Exception {
-        UserDetailsResource userDetailsResource = new UserDetailsResource(userDetailsRepositoryMock);
-        when(userDetailsRepositoryMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+        UserDetailsResource userDetailsResource = new UserDetailsResource(userDetailsServiceMock);
+        when(userDetailsServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
 
         MockMvc restUserDetailsMockMvc = MockMvcBuilders.standaloneSetup(userDetailsResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
@@ -167,13 +174,13 @@ public class UserDetailsResourceIntTest {
         restUserDetailsMockMvc.perform(get("/api/user-details?eagerload=true"))
         .andExpect(status().isOk());
 
-        verify(userDetailsRepositoryMock, times(1)).findAllWithEagerRelationships(any());
+        verify(userDetailsServiceMock, times(1)).findAllWithEagerRelationships(any());
     }
 
     @SuppressWarnings({"unchecked"})
     public void getAllUserDetailsWithEagerRelationshipsIsNotEnabled() throws Exception {
-        UserDetailsResource userDetailsResource = new UserDetailsResource(userDetailsRepositoryMock);
-            when(userDetailsRepositoryMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+        UserDetailsResource userDetailsResource = new UserDetailsResource(userDetailsServiceMock);
+            when(userDetailsServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
             MockMvc restUserDetailsMockMvc = MockMvcBuilders.standaloneSetup(userDetailsResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -183,7 +190,7 @@ public class UserDetailsResourceIntTest {
         restUserDetailsMockMvc.perform(get("/api/user-details?eagerload=true"))
         .andExpect(status().isOk());
 
-            verify(userDetailsRepositoryMock, times(1)).findAllWithEagerRelationships(any());
+            verify(userDetailsServiceMock, times(1)).findAllWithEagerRelationships(any());
     }
 
     @Test
@@ -212,7 +219,7 @@ public class UserDetailsResourceIntTest {
     @Transactional
     public void updateUserDetails() throws Exception {
         // Initialize the database
-        userDetailsRepository.saveAndFlush(userDetails);
+        userDetailsService.save(userDetails);
 
         int databaseSizeBeforeUpdate = userDetailsRepository.findAll().size();
 
@@ -257,7 +264,7 @@ public class UserDetailsResourceIntTest {
     @Transactional
     public void deleteUserDetails() throws Exception {
         // Initialize the database
-        userDetailsRepository.saveAndFlush(userDetails);
+        userDetailsService.save(userDetails);
 
         int databaseSizeBeforeDelete = userDetailsRepository.findAll().size();
 

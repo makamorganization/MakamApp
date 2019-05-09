@@ -1,6 +1,6 @@
 package makam.application.web.rest;
 import makam.application.domain.AchievementDictionary;
-import makam.application.repository.AchievementDictionaryRepository;
+import makam.application.service.AchievementDictionaryService;
 import makam.application.web.rest.errors.BadRequestAlertException;
 import makam.application.web.rest.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
@@ -26,10 +26,10 @@ public class AchievementDictionaryResource {
 
     private static final String ENTITY_NAME = "achievementDictionary";
 
-    private final AchievementDictionaryRepository achievementDictionaryRepository;
+    private final AchievementDictionaryService achievementDictionaryService;
 
-    public AchievementDictionaryResource(AchievementDictionaryRepository achievementDictionaryRepository) {
-        this.achievementDictionaryRepository = achievementDictionaryRepository;
+    public AchievementDictionaryResource(AchievementDictionaryService achievementDictionaryService) {
+        this.achievementDictionaryService = achievementDictionaryService;
     }
 
     /**
@@ -45,7 +45,7 @@ public class AchievementDictionaryResource {
         if (achievementDictionary.getId() != null) {
             throw new BadRequestAlertException("A new achievementDictionary cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        AchievementDictionary result = achievementDictionaryRepository.save(achievementDictionary);
+        AchievementDictionary result = achievementDictionaryService.save(achievementDictionary);
         return ResponseEntity.created(new URI("/api/achievement-dictionaries/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -66,7 +66,7 @@ public class AchievementDictionaryResource {
         if (achievementDictionary.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
-        AchievementDictionary result = achievementDictionaryRepository.save(achievementDictionary);
+        AchievementDictionary result = achievementDictionaryService.save(achievementDictionary);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, achievementDictionary.getId().toString()))
             .body(result);
@@ -80,7 +80,7 @@ public class AchievementDictionaryResource {
     @GetMapping("/achievement-dictionaries")
     public List<AchievementDictionary> getAllAchievementDictionaries() {
         log.debug("REST request to get all AchievementDictionaries");
-        return achievementDictionaryRepository.findAll();
+        return achievementDictionaryService.findAll();
     }
 
     /**
@@ -92,7 +92,7 @@ public class AchievementDictionaryResource {
     @GetMapping("/achievement-dictionaries/{id}")
     public ResponseEntity<AchievementDictionary> getAchievementDictionary(@PathVariable Long id) {
         log.debug("REST request to get AchievementDictionary : {}", id);
-        Optional<AchievementDictionary> achievementDictionary = achievementDictionaryRepository.findById(id);
+        Optional<AchievementDictionary> achievementDictionary = achievementDictionaryService.findOne(id);
         return ResponseUtil.wrapOrNotFound(achievementDictionary);
     }
 
@@ -105,7 +105,7 @@ public class AchievementDictionaryResource {
     @DeleteMapping("/achievement-dictionaries/{id}")
     public ResponseEntity<Void> deleteAchievementDictionary(@PathVariable Long id) {
         log.debug("REST request to delete AchievementDictionary : {}", id);
-        achievementDictionaryRepository.deleteById(id);
+        achievementDictionaryService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 }

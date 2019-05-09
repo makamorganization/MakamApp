@@ -4,6 +4,7 @@ import makam.application.MakamApp;
 
 import makam.application.domain.CourseParticipant;
 import makam.application.repository.CourseParticipantRepository;
+import makam.application.service.CourseParticipantService;
 import makam.application.web.rest.errors.ExceptionTranslator;
 
 import org.junit.Before;
@@ -53,6 +54,9 @@ public class CourseParticipantResourceIntTest {
     private CourseParticipantRepository courseParticipantRepository;
 
     @Autowired
+    private CourseParticipantService courseParticipantService;
+
+    @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Autowired
@@ -74,7 +78,7 @@ public class CourseParticipantResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final CourseParticipantResource courseParticipantResource = new CourseParticipantResource(courseParticipantRepository);
+        final CourseParticipantResource courseParticipantResource = new CourseParticipantResource(courseParticipantService);
         this.restCourseParticipantMockMvc = MockMvcBuilders.standaloneSetup(courseParticipantResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -185,7 +189,7 @@ public class CourseParticipantResourceIntTest {
     @Transactional
     public void updateCourseParticipant() throws Exception {
         // Initialize the database
-        courseParticipantRepository.saveAndFlush(courseParticipant);
+        courseParticipantService.save(courseParticipant);
 
         int databaseSizeBeforeUpdate = courseParticipantRepository.findAll().size();
 
@@ -234,7 +238,7 @@ public class CourseParticipantResourceIntTest {
     @Transactional
     public void deleteCourseParticipant() throws Exception {
         // Initialize the database
-        courseParticipantRepository.saveAndFlush(courseParticipant);
+        courseParticipantService.save(courseParticipant);
 
         int databaseSizeBeforeDelete = courseParticipantRepository.findAll().size();
 

@@ -1,6 +1,6 @@
 package makam.application.web.rest;
 import makam.application.domain.Certificate;
-import makam.application.repository.CertificateRepository;
+import makam.application.service.CertificateService;
 import makam.application.web.rest.errors.BadRequestAlertException;
 import makam.application.web.rest.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
@@ -26,10 +26,10 @@ public class CertificateResource {
 
     private static final String ENTITY_NAME = "certificate";
 
-    private final CertificateRepository certificateRepository;
+    private final CertificateService certificateService;
 
-    public CertificateResource(CertificateRepository certificateRepository) {
-        this.certificateRepository = certificateRepository;
+    public CertificateResource(CertificateService certificateService) {
+        this.certificateService = certificateService;
     }
 
     /**
@@ -45,7 +45,7 @@ public class CertificateResource {
         if (certificate.getId() != null) {
             throw new BadRequestAlertException("A new certificate cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        Certificate result = certificateRepository.save(certificate);
+        Certificate result = certificateService.save(certificate);
         return ResponseEntity.created(new URI("/api/certificates/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -66,7 +66,7 @@ public class CertificateResource {
         if (certificate.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
-        Certificate result = certificateRepository.save(certificate);
+        Certificate result = certificateService.save(certificate);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, certificate.getId().toString()))
             .body(result);
@@ -80,7 +80,7 @@ public class CertificateResource {
     @GetMapping("/certificates")
     public List<Certificate> getAllCertificates() {
         log.debug("REST request to get all Certificates");
-        return certificateRepository.findAll();
+        return certificateService.findAll();
     }
 
     /**
@@ -92,7 +92,7 @@ public class CertificateResource {
     @GetMapping("/certificates/{id}")
     public ResponseEntity<Certificate> getCertificate(@PathVariable Long id) {
         log.debug("REST request to get Certificate : {}", id);
-        Optional<Certificate> certificate = certificateRepository.findById(id);
+        Optional<Certificate> certificate = certificateService.findOne(id);
         return ResponseUtil.wrapOrNotFound(certificate);
     }
 
@@ -105,7 +105,7 @@ public class CertificateResource {
     @DeleteMapping("/certificates/{id}")
     public ResponseEntity<Void> deleteCertificate(@PathVariable Long id) {
         log.debug("REST request to delete Certificate : {}", id);
-        certificateRepository.deleteById(id);
+        certificateService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 }

@@ -1,6 +1,6 @@
 package makam.application.web.rest;
 import makam.application.domain.Course;
-import makam.application.repository.CourseRepository;
+import makam.application.service.CourseService;
 import makam.application.web.rest.errors.BadRequestAlertException;
 import makam.application.web.rest.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
@@ -14,7 +14,6 @@ import java.net.URISyntaxException;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 /**
@@ -28,10 +27,10 @@ public class CourseResource {
 
     private static final String ENTITY_NAME = "course";
 
-    private final CourseRepository courseRepository;
+    private final CourseService courseService;
 
-    public CourseResource(CourseRepository courseRepository) {
-        this.courseRepository = courseRepository;
+    public CourseResource(CourseService courseService) {
+        this.courseService = courseService;
     }
 
     /**
@@ -47,7 +46,7 @@ public class CourseResource {
         if (course.getId() != null) {
             throw new BadRequestAlertException("A new course cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        Course result = courseRepository.save(course);
+        Course result = courseService.save(course);
         return ResponseEntity.created(new URI("/api/courses/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -68,7 +67,7 @@ public class CourseResource {
         if (course.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
-        Course result = courseRepository.save(course);
+        Course result = courseService.save(course);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, course.getId().toString()))
             .body(result);
@@ -84,13 +83,10 @@ public class CourseResource {
     public List<Course> getAllCourses(@RequestParam(required = false) String filter) {
         if ("certificate-is-null".equals(filter)) {
             log.debug("REST request to get all Courses where certificate is null");
-            return StreamSupport
-                .stream(courseRepository.findAll().spliterator(), false)
-                .filter(course -> course.getCertificate() == null)
-                .collect(Collectors.toList());
+            return courseService.findAllWhereCertificateIsNull();
         }
         log.debug("REST request to get all Courses");
-        return courseRepository.findAll();
+        return courseService.findAll();
     }
 
     /**
@@ -102,7 +98,7 @@ public class CourseResource {
     @GetMapping("/courses/{id}")
     public ResponseEntity<Course> getCourse(@PathVariable Long id) {
         log.debug("REST request to get Course : {}", id);
-        Optional<Course> course = courseRepository.findById(id);
+        Optional<Course> course = courseService.findOne(id);
         return ResponseUtil.wrapOrNotFound(course);
     }
 
@@ -115,7 +111,7 @@ public class CourseResource {
     @DeleteMapping("/courses/{id}")
     public ResponseEntity<Void> deleteCourse(@PathVariable Long id) {
         log.debug("REST request to delete Course : {}", id);
-        courseRepository.deleteById(id);
+        courseService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 }

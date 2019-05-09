@@ -1,6 +1,6 @@
 package makam.application.web.rest;
 import makam.application.domain.CourseParticipant;
-import makam.application.repository.CourseParticipantRepository;
+import makam.application.service.CourseParticipantService;
 import makam.application.web.rest.errors.BadRequestAlertException;
 import makam.application.web.rest.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
@@ -26,10 +26,10 @@ public class CourseParticipantResource {
 
     private static final String ENTITY_NAME = "courseParticipant";
 
-    private final CourseParticipantRepository courseParticipantRepository;
+    private final CourseParticipantService courseParticipantService;
 
-    public CourseParticipantResource(CourseParticipantRepository courseParticipantRepository) {
-        this.courseParticipantRepository = courseParticipantRepository;
+    public CourseParticipantResource(CourseParticipantService courseParticipantService) {
+        this.courseParticipantService = courseParticipantService;
     }
 
     /**
@@ -45,7 +45,7 @@ public class CourseParticipantResource {
         if (courseParticipant.getId() != null) {
             throw new BadRequestAlertException("A new courseParticipant cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        CourseParticipant result = courseParticipantRepository.save(courseParticipant);
+        CourseParticipant result = courseParticipantService.save(courseParticipant);
         return ResponseEntity.created(new URI("/api/course-participants/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -66,7 +66,7 @@ public class CourseParticipantResource {
         if (courseParticipant.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
-        CourseParticipant result = courseParticipantRepository.save(courseParticipant);
+        CourseParticipant result = courseParticipantService.save(courseParticipant);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, courseParticipant.getId().toString()))
             .body(result);
@@ -80,7 +80,7 @@ public class CourseParticipantResource {
     @GetMapping("/course-participants")
     public List<CourseParticipant> getAllCourseParticipants() {
         log.debug("REST request to get all CourseParticipants");
-        return courseParticipantRepository.findAll();
+        return courseParticipantService.findAll();
     }
 
     /**
@@ -92,7 +92,7 @@ public class CourseParticipantResource {
     @GetMapping("/course-participants/{id}")
     public ResponseEntity<CourseParticipant> getCourseParticipant(@PathVariable Long id) {
         log.debug("REST request to get CourseParticipant : {}", id);
-        Optional<CourseParticipant> courseParticipant = courseParticipantRepository.findById(id);
+        Optional<CourseParticipant> courseParticipant = courseParticipantService.findOne(id);
         return ResponseUtil.wrapOrNotFound(courseParticipant);
     }
 
@@ -105,7 +105,7 @@ public class CourseParticipantResource {
     @DeleteMapping("/course-participants/{id}")
     public ResponseEntity<Void> deleteCourseParticipant(@PathVariable Long id) {
         log.debug("REST request to delete CourseParticipant : {}", id);
-        courseParticipantRepository.deleteById(id);
+        courseParticipantService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 }

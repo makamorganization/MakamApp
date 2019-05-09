@@ -1,6 +1,6 @@
 package makam.application.web.rest;
 import makam.application.domain.UserDetails;
-import makam.application.repository.UserDetailsRepository;
+import makam.application.service.UserDetailsService;
 import makam.application.web.rest.errors.BadRequestAlertException;
 import makam.application.web.rest.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
@@ -14,7 +14,6 @@ import java.net.URISyntaxException;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 /**
@@ -28,10 +27,10 @@ public class UserDetailsResource {
 
     private static final String ENTITY_NAME = "userDetails";
 
-    private final UserDetailsRepository userDetailsRepository;
+    private final UserDetailsService userDetailsService;
 
-    public UserDetailsResource(UserDetailsRepository userDetailsRepository) {
-        this.userDetailsRepository = userDetailsRepository;
+    public UserDetailsResource(UserDetailsService userDetailsService) {
+        this.userDetailsService = userDetailsService;
     }
 
     /**
@@ -47,7 +46,7 @@ public class UserDetailsResource {
         if (userDetails.getId() != null) {
             throw new BadRequestAlertException("A new userDetails cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        UserDetails result = userDetailsRepository.save(userDetails);
+        UserDetails result = userDetailsService.save(userDetails);
         return ResponseEntity.created(new URI("/api/user-details/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -68,7 +67,7 @@ public class UserDetailsResource {
         if (userDetails.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
-        UserDetails result = userDetailsRepository.save(userDetails);
+        UserDetails result = userDetailsService.save(userDetails);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, userDetails.getId().toString()))
             .body(result);
@@ -85,13 +84,10 @@ public class UserDetailsResource {
     public List<UserDetails> getAllUserDetails(@RequestParam(required = false) String filter,@RequestParam(required = false, defaultValue = "false") boolean eagerload) {
         if ("courseparticipant-is-null".equals(filter)) {
             log.debug("REST request to get all UserDetailss where courseParticipant is null");
-            return StreamSupport
-                .stream(userDetailsRepository.findAll().spliterator(), false)
-                .filter(userDetails -> userDetails.getCourseParticipant() == null)
-                .collect(Collectors.toList());
+            return userDetailsService.findAllWhereCourseParticipantIsNull();
         }
         log.debug("REST request to get all UserDetails");
-        return userDetailsRepository.findAllWithEagerRelationships();
+        return userDetailsService.findAll();
     }
 
     /**
@@ -103,7 +99,7 @@ public class UserDetailsResource {
     @GetMapping("/user-details/{id}")
     public ResponseEntity<UserDetails> getUserDetails(@PathVariable Long id) {
         log.debug("REST request to get UserDetails : {}", id);
-        Optional<UserDetails> userDetails = userDetailsRepository.findOneWithEagerRelationships(id);
+        Optional<UserDetails> userDetails = userDetailsService.findOne(id);
         return ResponseUtil.wrapOrNotFound(userDetails);
     }
 
@@ -116,7 +112,7 @@ public class UserDetailsResource {
     @DeleteMapping("/user-details/{id}")
     public ResponseEntity<Void> deleteUserDetails(@PathVariable Long id) {
         log.debug("REST request to delete UserDetails : {}", id);
-        userDetailsRepository.deleteById(id);
+        userDetailsService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 }
