@@ -1,0 +1,41 @@
+{
+    "name": "UserDetails",
+    "fields": [
+        {
+            "fieldName": "studentCardNumber",
+            "fieldType": "Integer"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "one-to-many",
+            "otherEntityName": "certificate",
+            "otherEntityRelationshipName": "userDetails",
+            "relationshipName": "certificate"
+        },
+        {
+            "relationshipType": "many-to-many",
+            "otherEntityName": "achievementDictionary",
+            "otherEntityRelationshipName": "userDetails",
+            "relationshipName": "achievementDictionary",
+            "otherEntityField": "id",
+            "ownerSide": true
+        },
+        {
+            "relationshipType": "one-to-one",
+            "otherEntityName": "courseParticipant",
+            "otherEntityRelationshipName": "user",
+            "relationshipName": "courseParticipant",
+            "ownerSide": false
+        }
+    ],
+    "changelogDate": "20190509093455",
+    "entityTableName": "user_details",
+    "dto": "no",
+    "pagination": "no",
+    "service": "no",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}
