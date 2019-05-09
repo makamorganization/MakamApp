@@ -34,6 +34,7 @@
     "jwtSecretKey": "NmZkNjRjNDNiMzAzZmY1YmYwYjM4Y2E1YTEyNTY4MmVkNjM4NzkwYTEwZTMwYmM4MGU2NTY3MGRkMDcwNDcwOTc5MzExOTFiMjJhOTdhODYzMjc4Yzc2ZTliOTA0NmRlMmM4NTg0NWVjN2VlYmIxODk3YmYzM2E2MmY3NDY1NDQ=",
     "entitySuffix": "",
     "dtoSuffix": "DTO",
-    "otherModules": []
+    "otherModules": [],
+    "skipClient": true
   }
 }
