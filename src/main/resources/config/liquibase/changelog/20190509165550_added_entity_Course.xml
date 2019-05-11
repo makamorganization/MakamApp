@@ -53,6 +53,26 @@
                 <constraints nullable="true" />
             </column>
 
+            <column name="minimal_number_of_participants" type="integer">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="lecturer_name" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="lecturer_surname" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="point_per_course" type="integer">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="is_visible_in_app" type="boolean">
+                <constraints nullable="true" />
+            </column>
+
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
         </createTable>
         

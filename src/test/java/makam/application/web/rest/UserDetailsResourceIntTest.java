@@ -49,6 +49,24 @@ public class UserDetailsResourceIntTest {
     private static final Integer DEFAULT_STUDENT_CARD_NUMBER = 1;
     private static final Integer UPDATED_STUDENT_CARD_NUMBER = 2;
 
+    private static final String DEFAULT_NAME = "AAAAAAAAAA";
+    private static final String UPDATED_NAME = "BBBBBBBBBB";
+
+    private static final String DEFAULT_SURNAME = "AAAAAAAAAA";
+    private static final String UPDATED_SURNAME = "BBBBBBBBBB";
+
+    private static final String DEFAULT_TELEPHONE_NUMBER = "AAAAAAAAAA";
+    private static final String UPDATED_TELEPHONE_NUMBER = "BBBBBBBBBB";
+
+    private static final Integer DEFAULT_STUDY_YEAR = 1;
+    private static final Integer UPDATED_STUDY_YEAR = 2;
+
+    private static final String DEFAULT_FACULTY = "AAAAAAAAAA";
+    private static final String UPDATED_FACULTY = "BBBBBBBBBB";
+
+    private static final String DEFAULT_FIELD_OF_STUDY = "AAAAAAAAAA";
+    private static final String UPDATED_FIELD_OF_STUDY = "BBBBBBBBBB";
+
     @Autowired
     private UserDetailsRepository userDetailsRepository;
 
@@ -100,7 +118,13 @@ public class UserDetailsResourceIntTest {
      */
     public static UserDetails createEntity(EntityManager em) {
         UserDetails userDetails = new UserDetails()
-            .studentCardNumber(DEFAULT_STUDENT_CARD_NUMBER);
+            .studentCardNumber(DEFAULT_STUDENT_CARD_NUMBER)
+            .name(DEFAULT_NAME)
+            .surname(DEFAULT_SURNAME)
+            .telephoneNumber(DEFAULT_TELEPHONE_NUMBER)
+            .studyYear(DEFAULT_STUDY_YEAR)
+            .faculty(DEFAULT_FACULTY)
+            .fieldOfStudy(DEFAULT_FIELD_OF_STUDY);
         return userDetails;
     }
 
@@ -125,6 +149,12 @@ public class UserDetailsResourceIntTest {
         assertThat(userDetailsList).hasSize(databaseSizeBeforeCreate + 1);
         UserDetails testUserDetails = userDetailsList.get(userDetailsList.size() - 1);
         assertThat(testUserDetails.getStudentCardNumber()).isEqualTo(DEFAULT_STUDENT_CARD_NUMBER);
+        assertThat(testUserDetails.getName()).isEqualTo(DEFAULT_NAME);
+        assertThat(testUserDetails.getSurname()).isEqualTo(DEFAULT_SURNAME);
+        assertThat(testUserDetails.getTelephoneNumber()).isEqualTo(DEFAULT_TELEPHONE_NUMBER);
+        assertThat(testUserDetails.getStudyYear()).isEqualTo(DEFAULT_STUDY_YEAR);
+        assertThat(testUserDetails.getFaculty()).isEqualTo(DEFAULT_FACULTY);
+        assertThat(testUserDetails.getFieldOfStudy()).isEqualTo(DEFAULT_FIELD_OF_STUDY);
     }
 
     @Test
@@ -157,7 +187,13 @@ public class UserDetailsResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(userDetails.getId().intValue())))
-            .andExpect(jsonPath("$.[*].studentCardNumber").value(hasItem(DEFAULT_STUDENT_CARD_NUMBER)));
+            .andExpect(jsonPath("$.[*].studentCardNumber").value(hasItem(DEFAULT_STUDENT_CARD_NUMBER)))
+            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
+            .andExpect(jsonPath("$.[*].surname").value(hasItem(DEFAULT_SURNAME.toString())))
+            .andExpect(jsonPath("$.[*].telephoneNumber").value(hasItem(DEFAULT_TELEPHONE_NUMBER.toString())))
+            .andExpect(jsonPath("$.[*].studyYear").value(hasItem(DEFAULT_STUDY_YEAR)))
+            .andExpect(jsonPath("$.[*].faculty").value(hasItem(DEFAULT_FACULTY.toString())))
+            .andExpect(jsonPath("$.[*].fieldOfStudy").value(hasItem(DEFAULT_FIELD_OF_STUDY.toString())));
     }
     
     @SuppressWarnings({"unchecked"})
@@ -204,7 +240,13 @@ public class UserDetailsResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(userDetails.getId().intValue()))
-            .andExpect(jsonPath("$.studentCardNumber").value(DEFAULT_STUDENT_CARD_NUMBER));
+            .andExpect(jsonPath("$.studentCardNumber").value(DEFAULT_STUDENT_CARD_NUMBER))
+            .andExpect(jsonPath("$.name").value(DEFAULT_NAME.toString()))
+            .andExpect(jsonPath("$.surname").value(DEFAULT_SURNAME.toString()))
+            .andExpect(jsonPath("$.telephoneNumber").value(DEFAULT_TELEPHONE_NUMBER.toString()))
+            .andExpect(jsonPath("$.studyYear").value(DEFAULT_STUDY_YEAR))
+            .andExpect(jsonPath("$.faculty").value(DEFAULT_FACULTY.toString()))
+            .andExpect(jsonPath("$.fieldOfStudy").value(DEFAULT_FIELD_OF_STUDY.toString()));
     }
 
     @Test
@@ -228,7 +270,13 @@ public class UserDetailsResourceIntTest {
         // Disconnect from session so that the updates on updatedUserDetails are not directly saved in db
         em.detach(updatedUserDetails);
         updatedUserDetails
-            .studentCardNumber(UPDATED_STUDENT_CARD_NUMBER);
+            .studentCardNumber(UPDATED_STUDENT_CARD_NUMBER)
+            .name(UPDATED_NAME)
+            .surname(UPDATED_SURNAME)
+            .telephoneNumber(UPDATED_TELEPHONE_NUMBER)
+            .studyYear(UPDATED_STUDY_YEAR)
+            .faculty(UPDATED_FACULTY)
+            .fieldOfStudy(UPDATED_FIELD_OF_STUDY);
 
         restUserDetailsMockMvc.perform(put("/api/user-details")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -240,6 +288,12 @@ public class UserDetailsResourceIntTest {
         assertThat(userDetailsList).hasSize(databaseSizeBeforeUpdate);
         UserDetails testUserDetails = userDetailsList.get(userDetailsList.size() - 1);
         assertThat(testUserDetails.getStudentCardNumber()).isEqualTo(UPDATED_STUDENT_CARD_NUMBER);
+        assertThat(testUserDetails.getName()).isEqualTo(UPDATED_NAME);
+        assertThat(testUserDetails.getSurname()).isEqualTo(UPDATED_SURNAME);
+        assertThat(testUserDetails.getTelephoneNumber()).isEqualTo(UPDATED_TELEPHONE_NUMBER);
+        assertThat(testUserDetails.getStudyYear()).isEqualTo(UPDATED_STUDY_YEAR);
+        assertThat(testUserDetails.getFaculty()).isEqualTo(UPDATED_FACULTY);
+        assertThat(testUserDetails.getFieldOfStudy()).isEqualTo(UPDATED_FIELD_OF_STUDY);
     }
 
     @Test

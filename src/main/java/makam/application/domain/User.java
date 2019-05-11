@@ -95,16 +95,16 @@ public class User extends AbstractAuditingEntity implements Serializable {
     @BatchSize(size = 20)
     private Set<Authority> authorities = new HashSet<>();
 
-    @OneToOne
-    private UserDetails userDetails;
+//    @OneToOne
+//    private UserDetails userDetails;
 
-    public UserDetails getUserDetails() {
-        return userDetails;
-    }
-
-    public void setUserDetails(UserDetails userDetails) {
-        this.userDetails = userDetails;
-    }
+//    public UserDetails getUserDetails() {
+//        return userDetails;
+//    }
+//
+//    public void setUserDetails(UserDetails userDetails) {
+//        this.userDetails = userDetails;
+//    }
 
     public Long getId() {
         return id;

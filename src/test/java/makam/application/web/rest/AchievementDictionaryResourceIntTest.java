@@ -50,6 +50,9 @@ public class AchievementDictionaryResourceIntTest {
     private static final Boolean DEFAULT_ENABLED = false;
     private static final Boolean UPDATED_ENABLED = true;
 
+    private static final String DEFAULT_DESCRIPTION = "AAAAAAAAAA";
+    private static final String UPDATED_DESCRIPTION = "BBBBBBBBBB";
+
     @Autowired
     private AchievementDictionaryRepository achievementDictionaryRepository;
 
@@ -97,7 +100,8 @@ public class AchievementDictionaryResourceIntTest {
         AchievementDictionary achievementDictionary = new AchievementDictionary()
             .key(DEFAULT_KEY)
             .value(DEFAULT_VALUE)
-            .enabled(DEFAULT_ENABLED);
+            .enabled(DEFAULT_ENABLED)
+            .description(DEFAULT_DESCRIPTION);
         return achievementDictionary;
     }
 
@@ -124,6 +128,7 @@ public class AchievementDictionaryResourceIntTest {
         assertThat(testAchievementDictionary.getKey()).isEqualTo(DEFAULT_KEY);
         assertThat(testAchievementDictionary.getValue()).isEqualTo(DEFAULT_VALUE);
         assertThat(testAchievementDictionary.isEnabled()).isEqualTo(DEFAULT_ENABLED);
+        assertThat(testAchievementDictionary.getDescription()).isEqualTo(DEFAULT_DESCRIPTION);
     }
 
     @Test
@@ -158,7 +163,8 @@ public class AchievementDictionaryResourceIntTest {
             .andExpect(jsonPath("$.[*].id").value(hasItem(achievementDictionary.getId().intValue())))
             .andExpect(jsonPath("$.[*].key").value(hasItem(DEFAULT_KEY.toString())))
             .andExpect(jsonPath("$.[*].value").value(hasItem(DEFAULT_VALUE.toString())))
-            .andExpect(jsonPath("$.[*].enabled").value(hasItem(DEFAULT_ENABLED.booleanValue())));
+            .andExpect(jsonPath("$.[*].enabled").value(hasItem(DEFAULT_ENABLED.booleanValue())))
+            .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION.toString())));
     }
     
     @Test
@@ -174,7 +180,8 @@ public class AchievementDictionaryResourceIntTest {
             .andExpect(jsonPath("$.id").value(achievementDictionary.getId().intValue()))
             .andExpect(jsonPath("$.key").value(DEFAULT_KEY.toString()))
             .andExpect(jsonPath("$.value").value(DEFAULT_VALUE.toString()))
-            .andExpect(jsonPath("$.enabled").value(DEFAULT_ENABLED.booleanValue()));
+            .andExpect(jsonPath("$.enabled").value(DEFAULT_ENABLED.booleanValue()))
+            .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION.toString()));
     }
 
     @Test
@@ -200,7 +207,8 @@ public class AchievementDictionaryResourceIntTest {
         updatedAchievementDictionary
             .key(UPDATED_KEY)
             .value(UPDATED_VALUE)
-            .enabled(UPDATED_ENABLED);
+            .enabled(UPDATED_ENABLED)
+            .description(UPDATED_DESCRIPTION);
 
         restAchievementDictionaryMockMvc.perform(put("/api/achievement-dictionaries")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -214,6 +222,7 @@ public class AchievementDictionaryResourceIntTest {
         assertThat(testAchievementDictionary.getKey()).isEqualTo(UPDATED_KEY);
         assertThat(testAchievementDictionary.getValue()).isEqualTo(UPDATED_VALUE);
         assertThat(testAchievementDictionary.isEnabled()).isEqualTo(UPDATED_ENABLED);
+        assertThat(testAchievementDictionary.getDescription()).isEqualTo(UPDATED_DESCRIPTION);
     }
 
     @Test

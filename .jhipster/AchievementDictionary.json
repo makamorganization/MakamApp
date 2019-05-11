@@ -12,6 +12,10 @@
         {
             "fieldName": "enabled",
             "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "description",
+            "fieldType": "String"
         }
     ],
     "relationships": [

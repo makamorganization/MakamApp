@@ -8,36 +8,69 @@ entity Course {
     registerStartDate LocalDate,
     registerEndDate LocalDate,
     duration Long,
-    maximumNumberOfParticipants Integer
+    maximumNumberOfParticipants Integer,
+    minimalNumberOfParticipants Integer,
+    lecturerName String,
+    lecturerSurname String,
+    pointPerCourse Integer,
+    isVisibleInApp Boolean
 }
 
-//to tak chwilowo bo trzeba polaczyc z encja usera w jhipsterze
 entity UserDetails {
-	studentCardNumber Integer
+	studentCardNumber Integer,
+    name String,
+    surname String,
+    telephoneNumber String,
+    studyYear Integer,
+    faculty String,
+    fieldOfStudy String
 }
 
-//Uczestnik szkolenia
+
+entity UserDetailsExtras {
+	numberOfPoints Integer,
+    numberOfBeingLateInRow Integer,
+    numberOfCoursesFinished Integer,
+    numberOfBeingLateTotal Integer,
+    numberOfCoursesTotalOmited Integer,
+    numberOfCoursesOmitedInRow Integer
+}
+
 entity CourseParticipant {
     isUserPresent Boolean,
     isUserLate Boolean,
     canCancelCourseAttendance Boolean
 }
 
-//nie wiem czy jakby to byl pdf to trzymac to w base_64 czy BLOB ?
+
 entity Certificate {
 	title String,
-    content String
+    path String,
+    validityEndDate LocalDate,
+    signature Blob,
 }
 
 entity AchievementDictionary {
 	key String,
     value String,
-    enabled Boolean
+    enabled Boolean,
+    description String
+}
+
+entity FacultyDictionary {
+	key String,
+    value String
+}
+
+entity FieldOfStudyDictionary {
+	key String,
+    value String
 }
 
 relationship OneToMany {
 	Course{courseParticipant} to CourseParticipant,
     UserDetails{certificate} to Certificate,
+    FacultyDictionary{fieldOfStudy} to FieldOfStudyDictionary
 }
 
 relationship ManyToMany {
@@ -47,6 +80,7 @@ relationship ManyToMany {
 relationship OneToOne {
 	CourseParticipant{user} to UserDetails{courseParticipant},
     Certificate{course} to Course{certificate}
+    UserDetails{userDetailsExtras} to UserDetailsExtras{userDetails}
 }
 
 service all with serviceImpl

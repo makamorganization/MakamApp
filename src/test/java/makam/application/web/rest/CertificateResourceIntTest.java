@@ -20,9 +20,12 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Base64Utils;
 import org.springframework.validation.Validator;
 
 import javax.persistence.EntityManager;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.List;
 
 
@@ -44,8 +47,16 @@ public class CertificateResourceIntTest {
     private static final String DEFAULT_TITLE = "AAAAAAAAAA";
     private static final String UPDATED_TITLE = "BBBBBBBBBB";
 
-    private static final String DEFAULT_CONTENT = "AAAAAAAAAA";
-    private static final String UPDATED_CONTENT = "BBBBBBBBBB";
+    private static final String DEFAULT_PATH = "AAAAAAAAAA";
+    private static final String UPDATED_PATH = "BBBBBBBBBB";
+
+    private static final LocalDate DEFAULT_VALIDITY_END_DATE = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_VALIDITY_END_DATE = LocalDate.now(ZoneId.systemDefault());
+
+    private static final byte[] DEFAULT_SIGNATURE = TestUtil.createByteArray(1, "0");
+    private static final byte[] UPDATED_SIGNATURE = TestUtil.createByteArray(1, "1");
+    private static final String DEFAULT_SIGNATURE_CONTENT_TYPE = "image/jpg";
+    private static final String UPDATED_SIGNATURE_CONTENT_TYPE = "image/png";
 
     @Autowired
     private CertificateRepository certificateRepository;
@@ -93,7 +104,10 @@ public class CertificateResourceIntTest {
     public static Certificate createEntity(EntityManager em) {
         Certificate certificate = new Certificate()
             .title(DEFAULT_TITLE)
-            .content(DEFAULT_CONTENT);
+            .path(DEFAULT_PATH)
+            .validityEndDate(DEFAULT_VALIDITY_END_DATE)
+            .signature(DEFAULT_SIGNATURE)
+            .signatureContentType(DEFAULT_SIGNATURE_CONTENT_TYPE);
         return certificate;
     }
 
@@ -118,7 +132,10 @@ public class CertificateResourceIntTest {
         assertThat(certificateList).hasSize(databaseSizeBeforeCreate + 1);
         Certificate testCertificate = certificateList.get(certificateList.size() - 1);
         assertThat(testCertificate.getTitle()).isEqualTo(DEFAULT_TITLE);
-        assertThat(testCertificate.getContent()).isEqualTo(DEFAULT_CONTENT);
+        assertThat(testCertificate.getPath()).isEqualTo(DEFAULT_PATH);
+        assertThat(testCertificate.getValidityEndDate()).isEqualTo(DEFAULT_VALIDITY_END_DATE);
+        assertThat(testCertificate.getSignature()).isEqualTo(DEFAULT_SIGNATURE);
+        assertThat(testCertificate.getSignatureContentType()).isEqualTo(DEFAULT_SIGNATURE_CONTENT_TYPE);
     }
 
     @Test
@@ -152,7 +169,10 @@ public class CertificateResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(certificate.getId().intValue())))
             .andExpect(jsonPath("$.[*].title").value(hasItem(DEFAULT_TITLE.toString())))
-            .andExpect(jsonPath("$.[*].content").value(hasItem(DEFAULT_CONTENT.toString())));
+            .andExpect(jsonPath("$.[*].path").value(hasItem(DEFAULT_PATH.toString())))
+            .andExpect(jsonPath("$.[*].validityEndDate").value(hasItem(DEFAULT_VALIDITY_END_DATE.toString())))
+            .andExpect(jsonPath("$.[*].signatureContentType").value(hasItem(DEFAULT_SIGNATURE_CONTENT_TYPE)))
+            .andExpect(jsonPath("$.[*].signature").value(hasItem(Base64Utils.encodeToString(DEFAULT_SIGNATURE))));
     }
     
     @Test
@@ -167,7 +187,10 @@ public class CertificateResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(certificate.getId().intValue()))
             .andExpect(jsonPath("$.title").value(DEFAULT_TITLE.toString()))
-            .andExpect(jsonPath("$.content").value(DEFAULT_CONTENT.toString()));
+            .andExpect(jsonPath("$.path").value(DEFAULT_PATH.toString()))
+            .andExpect(jsonPath("$.validityEndDate").value(DEFAULT_VALIDITY_END_DATE.toString()))
+            .andExpect(jsonPath("$.signatureContentType").value(DEFAULT_SIGNATURE_CONTENT_TYPE))
+            .andExpect(jsonPath("$.signature").value(Base64Utils.encodeToString(DEFAULT_SIGNATURE)));
     }
 
     @Test
@@ -192,7 +215,10 @@ public class CertificateResourceIntTest {
         em.detach(updatedCertificate);
         updatedCertificate
             .title(UPDATED_TITLE)
-            .content(UPDATED_CONTENT);
+            .path(UPDATED_PATH)
+            .validityEndDate(UPDATED_VALIDITY_END_DATE)
+            .signature(UPDATED_SIGNATURE)
+            .signatureContentType(UPDATED_SIGNATURE_CONTENT_TYPE);
 
         restCertificateMockMvc.perform(put("/api/certificates")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -204,7 +230,10 @@ public class CertificateResourceIntTest {
         assertThat(certificateList).hasSize(databaseSizeBeforeUpdate);
         Certificate testCertificate = certificateList.get(certificateList.size() - 1);
         assertThat(testCertificate.getTitle()).isEqualTo(UPDATED_TITLE);
-        assertThat(testCertificate.getContent()).isEqualTo(UPDATED_CONTENT);
+        assertThat(testCertificate.getPath()).isEqualTo(UPDATED_PATH);
+        assertThat(testCertificate.getValidityEndDate()).isEqualTo(UPDATED_VALIDITY_END_DATE);
+        assertThat(testCertificate.getSignature()).isEqualTo(UPDATED_SIGNATURE);
+        assertThat(testCertificate.getSignatureContentType()).isEqualTo(UPDATED_SIGNATURE_CONTENT_TYPE);
     }
 
     @Test

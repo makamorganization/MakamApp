@@ -4,9 +4,49 @@
         {
             "fieldName": "studentCardNumber",
             "fieldType": "Integer"
+        },
+        {
+            "fieldName": "name",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "surname",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "telephoneNumber",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "studyYear",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "faculty",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "fieldOfStudy",
+            "fieldType": "String"
         }
     ],
     "relationships": [
+        {
+            "relationshipType": "one-to-one",
+            "otherEntityName": "userDetailsExtras",
+            "otherEntityRelationshipName": "userDetails",
+            "relationshipName": "userDetailsExtras",
+            "otherEntityField": "id",
+            "ownerSide": true
+        },
+        {
+            "relationshipType": "one-to-one",
+            "otherEntityName": "user",
+            "otherEntityRelationshipName": "userDetails",
+            "relationshipName": "user",
+            "otherEntityField": "id",
+            "ownerSide": true
+        },
         {
             "relationshipType": "one-to-many",
             "otherEntityName": "certificate",

@@ -32,6 +32,26 @@
         {
             "fieldName": "maximumNumberOfParticipants",
             "fieldType": "Integer"
+        },
+        {
+            "fieldName": "minimalNumberOfParticipants",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "lecturerName",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "lecturerSurname",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "pointPerCourse",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "isVisibleInApp",
+            "fieldType": "Boolean"
         }
     ],
     "relationships": [

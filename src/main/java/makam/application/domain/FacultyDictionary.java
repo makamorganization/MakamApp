@@ -13,12 +13,12 @@ import java.util.Set;
 import java.util.Objects;
 
 /**
- * A AchievementDictionary.
+ * A FacultyDictionary.
  */
 @Entity
-@Table(name = "achievement_dictionary")
+@Table(name = "faculty_dictionary")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-public class AchievementDictionary implements Serializable {
+public class FacultyDictionary implements Serializable {
 
     private static final long serialVersionUID = 1L;
     
@@ -33,17 +33,9 @@ public class AchievementDictionary implements Serializable {
     @Column(name = "jhi_value")
     private String value;
 
-    @Column(name = "enabled")
-    private Boolean enabled;
-
-    @Column(name = "description")
-    private String description;
-
-    @ManyToMany(mappedBy = "achievementDictionaries")
+    @OneToMany(mappedBy = "facultyDictionary")
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    @JsonIgnore
-    private Set<UserDetails> userDetails = new HashSet<>();
-
+    private Set<FieldOfStudyDictionary> fieldOfStudies = new HashSet<>();
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;
@@ -57,7 +49,7 @@ public class AchievementDictionary implements Serializable {
         return key;
     }
 
-    public AchievementDictionary key(String key) {
+    public FacultyDictionary key(String key) {
         this.key = key;
         return this;
     }
@@ -70,7 +62,7 @@ public class AchievementDictionary implements Serializable {
         return value;
     }
 
-    public AchievementDictionary value(String value) {
+    public FacultyDictionary value(String value) {
         this.value = value;
         return this;
     }
@@ -79,55 +71,29 @@ public class AchievementDictionary implements Serializable {
         this.value = value;
     }
 
-    public Boolean isEnabled() {
-        return enabled;
+    public Set<FieldOfStudyDictionary> getFieldOfStudies() {
+        return fieldOfStudies;
     }
 
-    public AchievementDictionary enabled(Boolean enabled) {
-        this.enabled = enabled;
+    public FacultyDictionary fieldOfStudies(Set<FieldOfStudyDictionary> fieldOfStudyDictionaries) {
+        this.fieldOfStudies = fieldOfStudyDictionaries;
         return this;
     }
 
-    public void setEnabled(Boolean enabled) {
-        this.enabled = enabled;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public AchievementDictionary description(String description) {
-        this.description = description;
+    public FacultyDictionary addFieldOfStudy(FieldOfStudyDictionary fieldOfStudyDictionary) {
+        this.fieldOfStudies.add(fieldOfStudyDictionary);
+        fieldOfStudyDictionary.setFacultyDictionary(this);
         return this;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public Set<UserDetails> getUserDetails() {
-        return userDetails;
-    }
-
-    public AchievementDictionary userDetails(Set<UserDetails> userDetails) {
-        this.userDetails = userDetails;
+    public FacultyDictionary removeFieldOfStudy(FieldOfStudyDictionary fieldOfStudyDictionary) {
+        this.fieldOfStudies.remove(fieldOfStudyDictionary);
+        fieldOfStudyDictionary.setFacultyDictionary(null);
         return this;
     }
 
-    public AchievementDictionary addUserDetails(UserDetails userDetails) {
-        this.userDetails.add(userDetails);
-        userDetails.getAchievementDictionaries().add(this);
-        return this;
-    }
-
-    public AchievementDictionary removeUserDetails(UserDetails userDetails) {
-        this.userDetails.remove(userDetails);
-        userDetails.getAchievementDictionaries().remove(this);
-        return this;
-    }
-
-    public void setUserDetails(Set<UserDetails> userDetails) {
-        this.userDetails = userDetails;
+    public void setFieldOfStudies(Set<FieldOfStudyDictionary> fieldOfStudyDictionaries) {
+        this.fieldOfStudies = fieldOfStudyDictionaries;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
@@ -139,11 +105,11 @@ public class AchievementDictionary implements Serializable {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        AchievementDictionary achievementDictionary = (AchievementDictionary) o;
-        if (achievementDictionary.getId() == null || getId() == null) {
+        FacultyDictionary facultyDictionary = (FacultyDictionary) o;
+        if (facultyDictionary.getId() == null || getId() == null) {
             return false;
         }
-        return Objects.equals(getId(), achievementDictionary.getId());
+        return Objects.equals(getId(), facultyDictionary.getId());
     }
 
     @Override
@@ -153,12 +119,10 @@ public class AchievementDictionary implements Serializable {
 
     @Override
     public String toString() {
-        return "AchievementDictionary{" +
+        return "FacultyDictionary{" +
             "id=" + getId() +
             ", key='" + getKey() + "'" +
             ", value='" + getValue() + "'" +
-            ", enabled='" + isEnabled() + "'" +
-            ", description='" + getDescription() + "'" +
             "}";
     }
 }

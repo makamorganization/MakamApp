@@ -8,6 +8,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import javax.persistence.*;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Objects;
 
 /**
@@ -28,8 +29,18 @@ public class Certificate implements Serializable {
     @Column(name = "title")
     private String title;
 
-    @Column(name = "content")
-    private String content;
+    @Column(name = "path")
+    private String path;
+
+    @Column(name = "validity_end_date")
+    private LocalDate validityEndDate;
+
+    @Lob
+    @Column(name = "signature")
+    private byte[] signature;
+
+    @Column(name = "signature_content_type")
+    private String signatureContentType;
 
     @ManyToOne
     @JsonIgnoreProperties("certificates")
@@ -61,17 +72,56 @@ public class Certificate implements Serializable {
         this.title = title;
     }
 
-    public String getContent() {
-        return content;
+    public String getPath() {
+        return path;
     }
 
-    public Certificate content(String content) {
-        this.content = content;
+    public Certificate path(String path) {
+        this.path = path;
         return this;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public void setPath(String path) {
+        this.path = path;
+    }
+
+    public LocalDate getValidityEndDate() {
+        return validityEndDate;
+    }
+
+    public Certificate validityEndDate(LocalDate validityEndDate) {
+        this.validityEndDate = validityEndDate;
+        return this;
+    }
+
+    public void setValidityEndDate(LocalDate validityEndDate) {
+        this.validityEndDate = validityEndDate;
+    }
+
+    public byte[] getSignature() {
+        return signature;
+    }
+
+    public Certificate signature(byte[] signature) {
+        this.signature = signature;
+        return this;
+    }
+
+    public void setSignature(byte[] signature) {
+        this.signature = signature;
+    }
+
+    public String getSignatureContentType() {
+        return signatureContentType;
+    }
+
+    public Certificate signatureContentType(String signatureContentType) {
+        this.signatureContentType = signatureContentType;
+        return this;
+    }
+
+    public void setSignatureContentType(String signatureContentType) {
+        this.signatureContentType = signatureContentType;
     }
 
     public UserDetails getUserDetails() {
@@ -126,7 +176,10 @@ public class Certificate implements Serializable {
         return "Certificate{" +
             "id=" + getId() +
             ", title='" + getTitle() + "'" +
-            ", content='" + getContent() + "'" +
+            ", path='" + getPath() + "'" +
+            ", validityEndDate='" + getValidityEndDate() + "'" +
+            ", signature='" + getSignature() + "'" +
+            ", signatureContentType='" + getSignatureContentType() + "'" +
             "}";
     }
 }

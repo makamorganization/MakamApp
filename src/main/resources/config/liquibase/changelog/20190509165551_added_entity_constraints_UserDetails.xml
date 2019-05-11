@@ -8,6 +8,18 @@
     -->
     <changeSet id="20190509165551-2" author="jhipster">
         
+        <addForeignKeyConstraint baseColumnNames="user_details_extras_id"
+                                 baseTableName="user_details"
+                                 constraintName="fk_user_details_user_details_extras_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="user_details_extras"/>
+
+        <addForeignKeyConstraint baseColumnNames="user_id"
+                                 baseTableName="user_details"
+                                 constraintName="fk_user_details_user_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="jhi_user"/>
+
         <addForeignKeyConstraint baseColumnNames="user_details_id"
                                  baseTableName="user_details_achievement_dictionary"
                                  constraintName="fk_user_details_achievement_dictionary_user_details_id"

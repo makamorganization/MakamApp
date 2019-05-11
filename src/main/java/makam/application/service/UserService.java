@@ -4,6 +4,7 @@ import makam.application.config.Constants;
 import makam.application.domain.Authority;
 import makam.application.domain.User;
 import makam.application.repository.AuthorityRepository;
+import makam.application.repository.UserDetailsRepository;
 import makam.application.repository.UserRepository;
 import makam.application.security.AuthoritiesConstants;
 import makam.application.security.SecurityUtils;
@@ -43,11 +44,15 @@ public class UserService {
 
     private final CacheManager cacheManager;
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, AuthorityRepository authorityRepository, CacheManager cacheManager) {
+    private final UserDetailsRepository userDetailsRepository;
+
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, AuthorityRepository authorityRepository, CacheManager cacheManager,
+                       UserDetailsRepository userDetailsRepository) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.authorityRepository = authorityRepository;
         this.cacheManager = cacheManager;
+        this.userDetailsRepository = userDetailsRepository;
     }
 
     public Optional<User> activateRegistration(String key) {

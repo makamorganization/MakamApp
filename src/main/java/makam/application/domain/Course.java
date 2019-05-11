@@ -52,6 +52,21 @@ public class Course implements Serializable {
     @Column(name = "maximum_number_of_participants")
     private Integer maximumNumberOfParticipants;
 
+    @Column(name = "minimal_number_of_participants")
+    private Integer minimalNumberOfParticipants;
+
+    @Column(name = "lecturer_name")
+    private String lecturerName;
+
+    @Column(name = "lecturer_surname")
+    private String lecturerSurname;
+
+    @Column(name = "point_per_course")
+    private Integer pointPerCourse;
+
+    @Column(name = "is_visible_in_app")
+    private Boolean isVisibleInApp;
+
     @OneToMany(mappedBy = "course")
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<CourseParticipant> courseParticipants = new HashSet<>();
@@ -172,6 +187,71 @@ public class Course implements Serializable {
         this.maximumNumberOfParticipants = maximumNumberOfParticipants;
     }
 
+    public Integer getMinimalNumberOfParticipants() {
+        return minimalNumberOfParticipants;
+    }
+
+    public Course minimalNumberOfParticipants(Integer minimalNumberOfParticipants) {
+        this.minimalNumberOfParticipants = minimalNumberOfParticipants;
+        return this;
+    }
+
+    public void setMinimalNumberOfParticipants(Integer minimalNumberOfParticipants) {
+        this.minimalNumberOfParticipants = minimalNumberOfParticipants;
+    }
+
+    public String getLecturerName() {
+        return lecturerName;
+    }
+
+    public Course lecturerName(String lecturerName) {
+        this.lecturerName = lecturerName;
+        return this;
+    }
+
+    public void setLecturerName(String lecturerName) {
+        this.lecturerName = lecturerName;
+    }
+
+    public String getLecturerSurname() {
+        return lecturerSurname;
+    }
+
+    public Course lecturerSurname(String lecturerSurname) {
+        this.lecturerSurname = lecturerSurname;
+        return this;
+    }
+
+    public void setLecturerSurname(String lecturerSurname) {
+        this.lecturerSurname = lecturerSurname;
+    }
+
+    public Integer getPointPerCourse() {
+        return pointPerCourse;
+    }
+
+    public Course pointPerCourse(Integer pointPerCourse) {
+        this.pointPerCourse = pointPerCourse;
+        return this;
+    }
+
+    public void setPointPerCourse(Integer pointPerCourse) {
+        this.pointPerCourse = pointPerCourse;
+    }
+
+    public Boolean isIsVisibleInApp() {
+        return isVisibleInApp;
+    }
+
+    public Course isVisibleInApp(Boolean isVisibleInApp) {
+        this.isVisibleInApp = isVisibleInApp;
+        return this;
+    }
+
+    public void setIsVisibleInApp(Boolean isVisibleInApp) {
+        this.isVisibleInApp = isVisibleInApp;
+    }
+
     public Set<CourseParticipant> getCourseParticipants() {
         return courseParticipants;
     }
@@ -243,6 +323,11 @@ public class Course implements Serializable {
             ", registerEndDate='" + getRegisterEndDate() + "'" +
             ", duration=" + getDuration() +
             ", maximumNumberOfParticipants=" + getMaximumNumberOfParticipants() +
+            ", minimalNumberOfParticipants=" + getMinimalNumberOfParticipants() +
+            ", lecturerName='" + getLecturerName() + "'" +
+            ", lecturerSurname='" + getLecturerSurname() + "'" +
+            ", pointPerCourse=" + getPointPerCourse() +
+            ", isVisibleInApp='" + isIsVisibleInApp() + "'" +
             "}";
     }
 }

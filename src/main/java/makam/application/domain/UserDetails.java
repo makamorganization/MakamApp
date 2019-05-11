@@ -30,6 +30,32 @@ public class UserDetails implements Serializable {
     @Column(name = "student_card_number")
     private Integer studentCardNumber;
 
+    @Column(name = "name")
+    private String name;
+
+    @Column(name = "surname")
+    private String surname;
+
+    @Column(name = "telephone_number")
+    private String telephoneNumber;
+
+    @Column(name = "study_year")
+    private Integer studyYear;
+
+    @Column(name = "faculty")
+    private String faculty;
+
+    @Column(name = "field_of_study")
+    private String fieldOfStudy;
+
+    @OneToOne
+    @JoinColumn(unique = true)
+    private UserDetailsExtras userDetailsExtras;
+
+    @OneToOne
+    @JoinColumn(unique = true)
+    private User user;
+
     @OneToMany(mappedBy = "userDetails")
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Certificate> certificates = new HashSet<>();
@@ -64,6 +90,110 @@ public class UserDetails implements Serializable {
 
     public void setStudentCardNumber(Integer studentCardNumber) {
         this.studentCardNumber = studentCardNumber;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public UserDetails name(String name) {
+        this.name = name;
+        return this;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public UserDetails surname(String surname) {
+        this.surname = surname;
+        return this;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public String getTelephoneNumber() {
+        return telephoneNumber;
+    }
+
+    public UserDetails telephoneNumber(String telephoneNumber) {
+        this.telephoneNumber = telephoneNumber;
+        return this;
+    }
+
+    public void setTelephoneNumber(String telephoneNumber) {
+        this.telephoneNumber = telephoneNumber;
+    }
+
+    public Integer getStudyYear() {
+        return studyYear;
+    }
+
+    public UserDetails studyYear(Integer studyYear) {
+        this.studyYear = studyYear;
+        return this;
+    }
+
+    public void setStudyYear(Integer studyYear) {
+        this.studyYear = studyYear;
+    }
+
+    public String getFaculty() {
+        return faculty;
+    }
+
+    public UserDetails faculty(String faculty) {
+        this.faculty = faculty;
+        return this;
+    }
+
+    public void setFaculty(String faculty) {
+        this.faculty = faculty;
+    }
+
+    public String getFieldOfStudy() {
+        return fieldOfStudy;
+    }
+
+    public UserDetails fieldOfStudy(String fieldOfStudy) {
+        this.fieldOfStudy = fieldOfStudy;
+        return this;
+    }
+
+    public void setFieldOfStudy(String fieldOfStudy) {
+        this.fieldOfStudy = fieldOfStudy;
+    }
+
+    public UserDetailsExtras getUserDetailsExtras() {
+        return userDetailsExtras;
+    }
+
+    public UserDetails userDetailsExtras(UserDetailsExtras userDetailsExtras) {
+        this.userDetailsExtras = userDetailsExtras;
+        return this;
+    }
+
+    public void setUserDetailsExtras(UserDetailsExtras userDetailsExtras) {
+        this.userDetailsExtras = userDetailsExtras;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public UserDetails user(User user) {
+        this.user = user;
+        return this;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public Set<Certificate> getCertificates() {
@@ -155,6 +285,12 @@ public class UserDetails implements Serializable {
         return "UserDetails{" +
             "id=" + getId() +
             ", studentCardNumber=" + getStudentCardNumber() +
+            ", name='" + getName() + "'" +
+            ", surname='" + getSurname() + "'" +
+            ", telephoneNumber='" + getTelephoneNumber() + "'" +
+            ", studyYear=" + getStudyYear() +
+            ", faculty='" + getFaculty() + "'" +
+            ", fieldOfStudy='" + getFieldOfStudy() + "'" +
             "}";
     }
 }

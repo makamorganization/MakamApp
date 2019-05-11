@@ -25,6 +25,34 @@
                 <constraints nullable="true" />
             </column>
 
+            <column name="name" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="surname" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="telephone_number" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="study_year" type="integer">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="faculty" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="field_of_study" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="user_details_extras_id" type="bigint">
+                <constraints unique="true" nullable="true" uniqueConstraintName="ux_user_details_user_details_extras_id" />
+            </column>            <column name="user_id" type="bigint">
+                <constraints unique="true" nullable="true" uniqueConstraintName="ux_user_details_user_id" />
+            </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
         </createTable>
         

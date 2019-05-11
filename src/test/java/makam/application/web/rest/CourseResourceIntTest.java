@@ -67,6 +67,21 @@ public class CourseResourceIntTest {
     private static final Integer DEFAULT_MAXIMUM_NUMBER_OF_PARTICIPANTS = 1;
     private static final Integer UPDATED_MAXIMUM_NUMBER_OF_PARTICIPANTS = 2;
 
+    private static final Integer DEFAULT_MINIMAL_NUMBER_OF_PARTICIPANTS = 1;
+    private static final Integer UPDATED_MINIMAL_NUMBER_OF_PARTICIPANTS = 2;
+
+    private static final String DEFAULT_LECTURER_NAME = "AAAAAAAAAA";
+    private static final String UPDATED_LECTURER_NAME = "BBBBBBBBBB";
+
+    private static final String DEFAULT_LECTURER_SURNAME = "AAAAAAAAAA";
+    private static final String UPDATED_LECTURER_SURNAME = "BBBBBBBBBB";
+
+    private static final Integer DEFAULT_POINT_PER_COURSE = 1;
+    private static final Integer UPDATED_POINT_PER_COURSE = 2;
+
+    private static final Boolean DEFAULT_IS_VISIBLE_IN_APP = false;
+    private static final Boolean UPDATED_IS_VISIBLE_IN_APP = true;
+
     @Autowired
     private CourseRepository courseRepository;
 
@@ -119,7 +134,12 @@ public class CourseResourceIntTest {
             .registerStartDate(DEFAULT_REGISTER_START_DATE)
             .registerEndDate(DEFAULT_REGISTER_END_DATE)
             .duration(DEFAULT_DURATION)
-            .maximumNumberOfParticipants(DEFAULT_MAXIMUM_NUMBER_OF_PARTICIPANTS);
+            .maximumNumberOfParticipants(DEFAULT_MAXIMUM_NUMBER_OF_PARTICIPANTS)
+            .minimalNumberOfParticipants(DEFAULT_MINIMAL_NUMBER_OF_PARTICIPANTS)
+            .lecturerName(DEFAULT_LECTURER_NAME)
+            .lecturerSurname(DEFAULT_LECTURER_SURNAME)
+            .pointPerCourse(DEFAULT_POINT_PER_COURSE)
+            .isVisibleInApp(DEFAULT_IS_VISIBLE_IN_APP);
         return course;
     }
 
@@ -151,6 +171,11 @@ public class CourseResourceIntTest {
         assertThat(testCourse.getRegisterEndDate()).isEqualTo(DEFAULT_REGISTER_END_DATE);
         assertThat(testCourse.getDuration()).isEqualTo(DEFAULT_DURATION);
         assertThat(testCourse.getMaximumNumberOfParticipants()).isEqualTo(DEFAULT_MAXIMUM_NUMBER_OF_PARTICIPANTS);
+        assertThat(testCourse.getMinimalNumberOfParticipants()).isEqualTo(DEFAULT_MINIMAL_NUMBER_OF_PARTICIPANTS);
+        assertThat(testCourse.getLecturerName()).isEqualTo(DEFAULT_LECTURER_NAME);
+        assertThat(testCourse.getLecturerSurname()).isEqualTo(DEFAULT_LECTURER_SURNAME);
+        assertThat(testCourse.getPointPerCourse()).isEqualTo(DEFAULT_POINT_PER_COURSE);
+        assertThat(testCourse.isIsVisibleInApp()).isEqualTo(DEFAULT_IS_VISIBLE_IN_APP);
     }
 
     @Test
@@ -190,7 +215,12 @@ public class CourseResourceIntTest {
             .andExpect(jsonPath("$.[*].registerStartDate").value(hasItem(DEFAULT_REGISTER_START_DATE.toString())))
             .andExpect(jsonPath("$.[*].registerEndDate").value(hasItem(DEFAULT_REGISTER_END_DATE.toString())))
             .andExpect(jsonPath("$.[*].duration").value(hasItem(DEFAULT_DURATION.intValue())))
-            .andExpect(jsonPath("$.[*].maximumNumberOfParticipants").value(hasItem(DEFAULT_MAXIMUM_NUMBER_OF_PARTICIPANTS)));
+            .andExpect(jsonPath("$.[*].maximumNumberOfParticipants").value(hasItem(DEFAULT_MAXIMUM_NUMBER_OF_PARTICIPANTS)))
+            .andExpect(jsonPath("$.[*].minimalNumberOfParticipants").value(hasItem(DEFAULT_MINIMAL_NUMBER_OF_PARTICIPANTS)))
+            .andExpect(jsonPath("$.[*].lecturerName").value(hasItem(DEFAULT_LECTURER_NAME.toString())))
+            .andExpect(jsonPath("$.[*].lecturerSurname").value(hasItem(DEFAULT_LECTURER_SURNAME.toString())))
+            .andExpect(jsonPath("$.[*].pointPerCourse").value(hasItem(DEFAULT_POINT_PER_COURSE)))
+            .andExpect(jsonPath("$.[*].isVisibleInApp").value(hasItem(DEFAULT_IS_VISIBLE_IN_APP.booleanValue())));
     }
     
     @Test
@@ -211,7 +241,12 @@ public class CourseResourceIntTest {
             .andExpect(jsonPath("$.registerStartDate").value(DEFAULT_REGISTER_START_DATE.toString()))
             .andExpect(jsonPath("$.registerEndDate").value(DEFAULT_REGISTER_END_DATE.toString()))
             .andExpect(jsonPath("$.duration").value(DEFAULT_DURATION.intValue()))
-            .andExpect(jsonPath("$.maximumNumberOfParticipants").value(DEFAULT_MAXIMUM_NUMBER_OF_PARTICIPANTS));
+            .andExpect(jsonPath("$.maximumNumberOfParticipants").value(DEFAULT_MAXIMUM_NUMBER_OF_PARTICIPANTS))
+            .andExpect(jsonPath("$.minimalNumberOfParticipants").value(DEFAULT_MINIMAL_NUMBER_OF_PARTICIPANTS))
+            .andExpect(jsonPath("$.lecturerName").value(DEFAULT_LECTURER_NAME.toString()))
+            .andExpect(jsonPath("$.lecturerSurname").value(DEFAULT_LECTURER_SURNAME.toString()))
+            .andExpect(jsonPath("$.pointPerCourse").value(DEFAULT_POINT_PER_COURSE))
+            .andExpect(jsonPath("$.isVisibleInApp").value(DEFAULT_IS_VISIBLE_IN_APP.booleanValue()));
     }
 
     @Test
@@ -242,7 +277,12 @@ public class CourseResourceIntTest {
             .registerStartDate(UPDATED_REGISTER_START_DATE)
             .registerEndDate(UPDATED_REGISTER_END_DATE)
             .duration(UPDATED_DURATION)
-            .maximumNumberOfParticipants(UPDATED_MAXIMUM_NUMBER_OF_PARTICIPANTS);
+            .maximumNumberOfParticipants(UPDATED_MAXIMUM_NUMBER_OF_PARTICIPANTS)
+            .minimalNumberOfParticipants(UPDATED_MINIMAL_NUMBER_OF_PARTICIPANTS)
+            .lecturerName(UPDATED_LECTURER_NAME)
+            .lecturerSurname(UPDATED_LECTURER_SURNAME)
+            .pointPerCourse(UPDATED_POINT_PER_COURSE)
+            .isVisibleInApp(UPDATED_IS_VISIBLE_IN_APP);
 
         restCourseMockMvc.perform(put("/api/courses")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -261,6 +301,11 @@ public class CourseResourceIntTest {
         assertThat(testCourse.getRegisterEndDate()).isEqualTo(UPDATED_REGISTER_END_DATE);
         assertThat(testCourse.getDuration()).isEqualTo(UPDATED_DURATION);
         assertThat(testCourse.getMaximumNumberOfParticipants()).isEqualTo(UPDATED_MAXIMUM_NUMBER_OF_PARTICIPANTS);
+        assertThat(testCourse.getMinimalNumberOfParticipants()).isEqualTo(UPDATED_MINIMAL_NUMBER_OF_PARTICIPANTS);
+        assertThat(testCourse.getLecturerName()).isEqualTo(UPDATED_LECTURER_NAME);
+        assertThat(testCourse.getLecturerSurname()).isEqualTo(UPDATED_LECTURER_SURNAME);
+        assertThat(testCourse.getPointPerCourse()).isEqualTo(UPDATED_POINT_PER_COURSE);
+        assertThat(testCourse.isIsVisibleInApp()).isEqualTo(UPDATED_IS_VISIBLE_IN_APP);
     }
 
     @Test

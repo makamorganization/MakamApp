@@ -25,7 +25,18 @@
                 <constraints nullable="true" />
             </column>
 
-            <column name="content" type="varchar(255)">
+            <column name="path" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="validity_end_date" type="date">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="signature" type="longblob">
+                <constraints nullable="true" />
+            </column>
+            <column name="signature_content_type" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
 
