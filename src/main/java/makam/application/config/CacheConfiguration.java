@@ -5,10 +5,11 @@ import java.time.Duration;
 import org.ehcache.config.builders.*;
 import org.ehcache.jsr107.Eh107Configuration;
 
-import io.github.jhipster.config.jcache.BeanClassLoaderAwareJCacheRegionFactory;
+import org.hibernate.cache.jcache.ConfigSettings;
 import io.github.jhipster.config.JHipsterProperties;
 
 import org.springframework.boot.autoconfigure.cache.JCacheManagerCustomizer;
+import org.springframework.boot.autoconfigure.orm.jpa.HibernatePropertiesCustomizer;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.*;
 
@@ -19,7 +20,6 @@ public class CacheConfiguration {
     private final javax.cache.configuration.Configuration<Object, Object> jcacheConfiguration;
 
     public CacheConfiguration(JHipsterProperties jHipsterProperties) {
-        BeanClassLoaderAwareJCacheRegionFactory.setBeanClassLoader(this.getClass().getClassLoader());
         JHipsterProperties.Cache.Ehcache ehcache =
             jHipsterProperties.getCache().getEhcache();
 
@@ -31,27 +31,27 @@ public class CacheConfiguration {
     }
 
     @Bean
+    public HibernatePropertiesCustomizer hibernatePropertiesCustomizer(javax.cache.CacheManager cacheManager) {
+        return hibernateProperties -> hibernateProperties.put(ConfigSettings.CACHE_MANAGER, cacheManager);
+    }
+
+    @Bean
     public JCacheManagerCustomizer cacheManagerCustomizer() {
         return cm -> {
-            cm.createCache(makam.application.repository.UserRepository.USERS_BY_LOGIN_CACHE, jcacheConfiguration);
-            cm.createCache(makam.application.repository.UserRepository.USERS_BY_EMAIL_CACHE, jcacheConfiguration);
-            cm.createCache(makam.application.domain.User.class.getName(), jcacheConfiguration);
-            cm.createCache(makam.application.domain.Authority.class.getName(), jcacheConfiguration);
-            cm.createCache(makam.application.domain.User.class.getName() + ".authorities", jcacheConfiguration);
-            cm.createCache(makam.application.domain.Course.class.getName(), jcacheConfiguration);
-            cm.createCache(makam.application.domain.Course.class.getName() + ".courseParticipants", jcacheConfiguration);
-            cm.createCache(makam.application.domain.UserDetails.class.getName(), jcacheConfiguration);
-            cm.createCache(makam.application.domain.UserDetails.class.getName() + ".certificates", jcacheConfiguration);
-            cm.createCache(makam.application.domain.UserDetails.class.getName() + ".achievementDictionaries", jcacheConfiguration);
-            cm.createCache(makam.application.domain.CourseParticipant.class.getName(), jcacheConfiguration);
-            cm.createCache(makam.application.domain.Certificate.class.getName(), jcacheConfiguration);
-            cm.createCache(makam.application.domain.AchievementDictionary.class.getName(), jcacheConfiguration);
-            cm.createCache(makam.application.domain.AchievementDictionary.class.getName() + ".userDetails", jcacheConfiguration);
-            cm.createCache(makam.application.domain.UserDetailsExtras.class.getName(), jcacheConfiguration);
-            cm.createCache(makam.application.domain.FacultyDictionary.class.getName(), jcacheConfiguration);
-            cm.createCache(makam.application.domain.FacultyDictionary.class.getName() + ".fieldOfStudies", jcacheConfiguration);
-            cm.createCache(makam.application.domain.FieldOfStudyDictionary.class.getName(), jcacheConfiguration);
+            createCache(cm, makam.application.repository.UserRepository.USERS_BY_LOGIN_CACHE);
+            createCache(cm, makam.application.repository.UserRepository.USERS_BY_EMAIL_CACHE);
+            createCache(cm, makam.application.domain.User.class.getName());
+            createCache(cm, makam.application.domain.Authority.class.getName());
+            createCache(cm, makam.application.domain.User.class.getName() + ".authorities");
             // jhipster-needle-ehcache-add-entry
         };
+    }
+
+    private void createCache(javax.cache.CacheManager cm, String cacheName) {
+        javax.cache.Cache<Object, Object> cache = cm.getCache(cacheName);
+        if (cache != null) {
+            cm.destroyCache(cacheName);
+        }
+        cm.createCache(cacheName, jcacheConfiguration);
     }
 }

@@ -1,23 +1,11 @@
 import React from 'react';
 import { Translate } from 'react-jhipster';
 
-import { UncontrolledDropdown, DropdownToggle, DropdownMenu, NavItem, NavLink, NavbarBrand } from 'reactstrap';
+import { NavItem, NavLink, NavbarBrand } from 'reactstrap';
 import { NavLink as Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import appConfig from 'app/config/constants';
-
-export const NavDropdown = props => (
-  <UncontrolledDropdown nav inNavbar id={props.id}>
-    <DropdownToggle nav caret className="d-flex align-items-center">
-      <FontAwesomeIcon icon={props.icon} />
-      <span>{props.name}</span>
-    </DropdownToggle>
-    <DropdownMenu right style={props.style}>
-      {props.children}
-    </DropdownMenu>
-  </UncontrolledDropdown>
-);
 
 export const BrandIcon = props => (
   <div {...props} className="brand-icon">
@@ -29,7 +17,7 @@ export const Brand = props => (
   <NavbarBrand tag={Link} to="/" className="brand-logo">
     <BrandIcon />
     <span className="brand-title">
-      <Translate contentKey="global.title">Makam</Translate>
+      <Translate contentKey="global.title">MakamApp</Translate>
     </span>
     <span className="navbar-version">{appConfig.VERSION}</span>
   </NavbarBrand>

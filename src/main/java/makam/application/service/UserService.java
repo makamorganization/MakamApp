@@ -4,7 +4,6 @@ import makam.application.config.Constants;
 import makam.application.domain.Authority;
 import makam.application.domain.User;
 import makam.application.repository.AuthorityRepository;
-import makam.application.repository.UserDetailsRepository;
 import makam.application.repository.UserRepository;
 import makam.application.security.AuthoritiesConstants;
 import makam.application.security.SecurityUtils;
@@ -44,15 +43,11 @@ public class UserService {
 
     private final CacheManager cacheManager;
 
-    private final UserDetailsRepository userDetailsRepository;
-
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, AuthorityRepository authorityRepository, CacheManager cacheManager,
-                       UserDetailsRepository userDetailsRepository) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, AuthorityRepository authorityRepository, CacheManager cacheManager) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.authorityRepository = authorityRepository;
         this.cacheManager = cacheManager;
-        this.userDetailsRepository = userDetailsRepository;
     }
 
     public Optional<User> activateRegistration(String key) {
@@ -172,11 +167,11 @@ public class UserService {
     /**
      * Update basic information (first name, last name, email, language) for the current user.
      *
-     * @param firstName first name of user
-     * @param lastName last name of user
-     * @param email email id of user
-     * @param langKey language key
-     * @param imageUrl image URL of user
+     * @param firstName first name of user.
+     * @param lastName  last name of user.
+     * @param email     email id of user.
+     * @param langKey   language key.
+     * @param imageUrl  image URL of user.
      */
     public void updateUser(String firstName, String lastName, String email, String langKey, String imageUrl) {
         SecurityUtils.getCurrentUserLogin()
@@ -195,8 +190,8 @@ public class UserService {
     /**
      * Update all information for a specific user, and return the modified user.
      *
-     * @param userDTO user to update
-     * @return updated user
+     * @param userDTO user to update.
+     * @return updated user.
      */
     public Optional<UserDTO> updateUser(UserDTO userDTO) {
         return Optional.of(userRepository
@@ -286,7 +281,8 @@ public class UserService {
     }
 
     /**
-     * @return a list of all the authorities
+     * Gets a list of all the authorities.
+     * @return a list of all the authorities.
      */
     public List<String> getAuthorities() {
         return authorityRepository.findAll().stream().map(Authority::getName).collect(Collectors.toList());
