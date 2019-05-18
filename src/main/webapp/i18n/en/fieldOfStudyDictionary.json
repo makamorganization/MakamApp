@@ -1,0 +1,23 @@
+{
+  "makamApp": {
+    "fieldOfStudyDictionary": {
+      "home": {
+        "title": "Field Of Study Dictionaries",
+        "createLabel": "Create a new Field Of Study Dictionary",
+        "createOrEditLabel": "Create or edit a Field Of Study Dictionary"
+      },
+      "created": "A new Field Of Study Dictionary is created with identifier {{ param }}",
+      "updated": "A Field Of Study Dictionary is updated with identifier {{ param }}",
+      "deleted": "A Field Of Study Dictionary is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Field Of Study Dictionary {{ id }}?"
+      },
+      "detail": {
+        "title": "Field Of Study Dictionary"
+      },
+      "key": "Key",
+      "value": "Value",
+      "facultyDictionary": "Faculty Dictionary"
+    }
+  }
+}

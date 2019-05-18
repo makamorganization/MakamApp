@@ -1,0 +1,35 @@
+{
+  "makamApp": {
+    "course": {
+      "home": {
+        "title": "Courses",
+        "createLabel": "Create a new Course",
+        "createOrEditLabel": "Create or edit a Course"
+      },
+      "created": "A new Course is created with identifier {{ param }}",
+      "updated": "A Course is updated with identifier {{ param }}",
+      "deleted": "A Course is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Course {{ id }}?"
+      },
+      "detail": {
+        "title": "Course"
+      },
+      "title": "Title",
+      "description": "Description",
+      "courseStartDate": "Course Start Date",
+      "courseEndDate": "Course End Date",
+      "registerStartDate": "Register Start Date",
+      "registerEndDate": "Register End Date",
+      "duration": "Duration",
+      "maximumNumberOfParticipants": "Maximum Number Of Participants",
+      "minimalNumberOfParticipants": "Minimal Number Of Participants",
+      "lecturerName": "Lecturer Name",
+      "lecturerSurname": "Lecturer Surname",
+      "pointPerCourse": "Point Per Course",
+      "isVisibleInApp": "Is Visible In App",
+      "courseParticipant": "Course Participant",
+      "certificate": "Certificate"
+    }
+  }
+}

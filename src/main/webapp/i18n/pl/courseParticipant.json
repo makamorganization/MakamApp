@@ -1,0 +1,25 @@
+{
+  "makamApp": {
+    "courseParticipant": {
+      "home": {
+        "title": "Course Participant",
+        "createLabel": "Dodaj Course Participant",
+        "createOrEditLabel": "Dodaj lub edytuj: Course Participant"
+      },
+      "created": "Utworzono nowy obiekt typu Course Participant z identyfikatorem {{ param }}",
+      "updated": "Uaktualniono obiekt typu Course Participant z identyfikatorem {{ param }}",
+      "deleted": "Usunięto obiekt typu Course Participant z identyfikatorem {{ param }}",
+      "delete": {
+        "question": "Czy na pewno chcesz usunąć Course Participant {{ id }}?"
+      },
+      "detail": {
+        "title": "Course Participant"
+      },
+      "isUserPresent": "Is User Present",
+      "isUserLate": "Is User Late",
+      "canCancelCourseAttendance": "Can Cancel Course Attendance",
+      "course": "Course",
+      "user": "User"
+    }
+  }
+}
