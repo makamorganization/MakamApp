@@ -35,6 +35,8 @@
     "clientTheme": "none",
     "entitySuffix": "",
     "dtoSuffix": "DTO",
-    "otherModules": []
+    "otherModules": [],
+    "herokuAppName": "makam-app",
+    "herokuDeployType": "git"
   }
 }
