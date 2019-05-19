@@ -53,6 +53,54 @@ public class UserDTO {
 
     private Set<String> authorities;
 
+    @Pattern(regexp="[0-9]{9}")
+    private String telephoneNumber;
+    private int studyYear;
+    private Long facultyId;
+    private Long fieldOfStudyId;
+    @Pattern(regexp="[0-9]{6}")
+    private String studentCardNumber;
+
+    public String getTelephoneNumber() {
+        return telephoneNumber;
+    }
+
+    public void setTelephoneNumber(String telephoneNumber) {
+        this.telephoneNumber = telephoneNumber;
+    }
+
+    public int getStudyYear() {
+        return studyYear;
+    }
+
+    public void setStudyYear(int studyYear) {
+        this.studyYear = studyYear;
+    }
+
+    public Long getFacultyId() {
+        return facultyId;
+    }
+
+    public void setFacultyId(Long facultyId) {
+        this.facultyId = facultyId;
+    }
+
+    public Long getFieldOfStudyId() {
+        return fieldOfStudyId;
+    }
+
+    public void setFieldOfStudyId(Long fieldOfStudyId) {
+        this.fieldOfStudyId = fieldOfStudyId;
+    }
+
+    public String getStudentCardNumber() {
+        return studentCardNumber;
+    }
+
+    public void setStudentCardNumber(String studentCardNumber) {
+        this.studentCardNumber = studentCardNumber;
+    }
+
     public UserDTO() {
         // Empty constructor needed for Jackson.
     }

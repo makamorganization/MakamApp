@@ -2,12 +2,18 @@ package makam.application.service;
 
 import makam.application.config.Constants;
 import makam.application.domain.Authority;
+import makam.application.domain.FacultyDictionary;
 import makam.application.domain.User;
+import makam.application.domain.UserDetails;
 import makam.application.repository.AuthorityRepository;
+import makam.application.repository.FieldOfStudyDictionaryRepository;
 import makam.application.repository.UserRepository;
 import makam.application.security.AuthoritiesConstants;
 import makam.application.security.SecurityUtils;
+import makam.application.service.dto.FacultyDictionaryDTO;
+import makam.application.service.dto.FieldOfStudyDictionaryDTO;
 import makam.application.service.dto.UserDTO;
+import makam.application.service.dto.UserDetailsDTO;
 import makam.application.service.util.RandomUtil;
 import makam.application.web.rest.errors.*;
 
@@ -41,13 +47,24 @@ public class UserService {
 
     private final AuthorityRepository authorityRepository;
 
+    private final FacultyDictionaryService facultyDictionaryService;
+
+    private final FieldOfStudyDictionaryService fieldOfStudyDictionaryService;
+
+    private final UserDetailsService userDetailsService;
+
     private final CacheManager cacheManager;
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, AuthorityRepository authorityRepository, CacheManager cacheManager) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, AuthorityRepository authorityRepository, CacheManager cacheManager,
+                       FacultyDictionaryService facultyDictionaryService, FieldOfStudyDictionaryService fieldOfStudyDictionaryService,
+                       UserDetailsService userDetailsService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.authorityRepository = authorityRepository;
         this.cacheManager = cacheManager;
+        this.facultyDictionaryService = facultyDictionaryService;
+        this.fieldOfStudyDictionaryService = fieldOfStudyDictionaryService;
+        this.userDetailsService = userDetailsService;
     }
 
     public Optional<User> activateRegistration(String key) {
@@ -100,24 +117,40 @@ public class UserService {
                 throw new EmailAlreadyUsedException();
             }
         });
+        Optional<FacultyDictionaryDTO> optionalFacultyDictionary = facultyDictionaryService.findOne(userDTO.getFacultyId());
+        Optional<FieldOfStudyDictionaryDTO> optionalFieldOfStudyDictionary = fieldOfStudyDictionaryService.findOne(userDTO.getFieldOfStudyId());
+        if (!optionalFacultyDictionary.isPresent()) {
+            throw new ResourceNotFound("faculty not found");
+        }
+        if (!optionalFieldOfStudyDictionary.isPresent()) {
+            throw new ResourceNotFound("Field of study not found");
+        }
+
         User newUser = new User();
+        UserDetailsDTO userDetails = new UserDetailsDTO();
         String encryptedPassword = passwordEncoder.encode(password);
         newUser.setLogin(userDTO.getLogin().toLowerCase());
-        // new user gets initially a generated password
         newUser.setPassword(encryptedPassword);
         newUser.setFirstName(userDTO.getFirstName());
         newUser.setLastName(userDTO.getLastName());
         newUser.setEmail(userDTO.getEmail().toLowerCase());
         newUser.setImageUrl(userDTO.getImageUrl());
         newUser.setLangKey(userDTO.getLangKey());
-        // new user is not active
-        newUser.setActivated(false);
-        // new user gets registration key
+        //temporarly for tests
+        newUser.setActivated(true);
         newUser.setActivationKey(RandomUtil.generateActivationKey());
         Set<Authority> authorities = new HashSet<>();
         authorityRepository.findById(AuthoritiesConstants.USER).ifPresent(authorities::add);
         newUser.setAuthorities(authorities);
+        userDetails.setUser(newUser);
+        userDetails.setName(newUser.getFirstName());
+        userDetails.setSurname(newUser.getLastName());
+        userDetails.setTelephoneNumber(userDTO.getTelephoneNumber());
+        userDetails.setStudyYear(userDTO.getStudyYear());
+        userDetails.setFaculty(optionalFacultyDictionary.get().getValue());
+        userDetails.setFieldOfStudy(optionalFieldOfStudyDictionary.get().getValue());
         userRepository.save(newUser);
+        userDetailsService.save(userDetails);
         this.clearUserCaches(newUser);
         log.debug("Created Information for User: {}", newUser);
         return newUser;

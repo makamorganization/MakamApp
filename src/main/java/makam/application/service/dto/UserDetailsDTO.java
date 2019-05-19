@@ -1,4 +1,7 @@
 package makam.application.service.dto;
+
+import makam.application.domain.User;
+
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
@@ -25,6 +28,7 @@ public class UserDetailsDTO implements Serializable {
 
     private String fieldOfStudy;
 
+    private User user;
 
     private Long userDetailsExtrasId;
 
@@ -108,6 +112,14 @@ public class UserDetailsDTO implements Serializable {
 
     public void setAchievementDictionaries(Set<AchievementDictionaryDTO> achievementDictionaries) {
         this.achievementDictionaries = achievementDictionaries;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override

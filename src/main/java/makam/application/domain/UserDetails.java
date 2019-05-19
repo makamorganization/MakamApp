@@ -52,6 +52,10 @@ public class UserDetails implements Serializable {
     @JoinColumn(unique = true)
     private UserDetailsExtras userDetailsExtras;
 
+    @OneToOne
+    @JoinColumn(unique = true)
+    private User user;
+
     @OneToMany(mappedBy = "userDetails")
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Certificate> certificates = new HashSet<>();
@@ -241,6 +245,14 @@ public class UserDetails implements Serializable {
 
     public void setCourseParticipant(CourseParticipant courseParticipant) {
         this.courseParticipant = courseParticipant;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
