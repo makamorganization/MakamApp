@@ -45,31 +45,6 @@
 
     </changeSet>
 
-    <!--
-        Load sample data generated with Faker.js
-        - This data can be easily edited using a CSV editor (or even MS Excel) and
-          is located in the 'src/main/resources/config/liquibase/data' directory
-        - By default this data is applied when running with the JHipster 'dev' profile.
-          This can be customized by adding or removing 'faker' in the 'spring.liquibase.contexts'
-          Spring Boot configuration key.
-    -->
-    <changeSet id="20190518210010-1-data" author="jhipster" context="faker">
-        <loadData
-                  file="config/liquibase/data/certificate.csv"
-                  separator=";"
-                  tableName="certificate"
-                  context="dev">
-            <column name="id" type="numeric"/>
-            <column name="title" type="string"/>
-            <column name="path" type="string"/>
-            <column name="validity_end_date" type="date"/>
-            <column name="signature" type="string"/>
-            <column name="signature_content_type" type="string"/>
-        </loadData>
-    </changeSet>
-
-    <changeSet id="20190518210010-1-relations" author="jhipster">
-
-    </changeSet>
+    
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here, do not remove-->
 </databaseChangeLog>
