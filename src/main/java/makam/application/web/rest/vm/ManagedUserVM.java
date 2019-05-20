@@ -1,6 +1,8 @@
 package makam.application.web.rest.vm;
 
 import makam.application.service.dto.UserDTO;
+
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 /**
