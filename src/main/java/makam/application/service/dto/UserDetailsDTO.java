@@ -14,7 +14,7 @@ public class UserDetailsDTO implements Serializable {
 
     private Long id;
 
-    private Integer studentCardNumber;
+    private String studentCardNumber;
 
     private String name;
 
@@ -42,14 +42,13 @@ public class UserDetailsDTO implements Serializable {
         this.id = id;
     }
 
-    public Integer getStudentCardNumber() {
+    public String getStudentCardNumber() {
         return studentCardNumber;
     }
 
-    public void setStudentCardNumber(Integer studentCardNumber) {
+    public void setStudentCardNumber(String studentCardNumber) {
         this.studentCardNumber = studentCardNumber;
     }
-
     public String getName() {
         return name;
     }

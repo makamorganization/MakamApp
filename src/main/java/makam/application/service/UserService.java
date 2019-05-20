@@ -149,6 +149,7 @@ public class UserService {
         userDetails.setStudyYear(userDTO.getStudyYear());
         userDetails.setFaculty(optionalFacultyDictionary.get().getValue());
         userDetails.setFieldOfStudy(optionalFieldOfStudyDictionary.get().getValue());
+        userDetails.setStudentCardNumber(userDTO.getStudentCardNumber());
         userRepository.save(newUser);
         userDetailsService.save(userDetails);
         this.clearUserCaches(newUser);
