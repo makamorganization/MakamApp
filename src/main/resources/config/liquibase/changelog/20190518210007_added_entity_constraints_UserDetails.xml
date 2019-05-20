@@ -25,6 +25,12 @@
                                  constraintName="user_details_achievement_dicti_achievement_dictionary_id"
                                  referencedColumnNames="id"
                                  referencedTableName="achievement_dictionary"/>
+
+        <addForeignKeyConstraint baseColumnNames="user_id"
+                                 baseTableName="user_details"
+                                 constraintName="fk_user_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="jhi_user"/>
         
     </changeSet>
 </databaseChangeLog>
