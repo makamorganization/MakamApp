@@ -26,9 +26,9 @@
                                  referencedColumnNames="id"
                                  referencedTableName="achievement_dictionary"/>
 
-        <addForeignKeyConstraint baseColumnNames="user_id"
+        <addForeignKeyConstraint baseColumnNames="jhi_user_id"
                                  baseTableName="user_details"
-                                 constraintName="fk_user_id"
+                                 constraintName="fk_jhi_user_id"
                                  referencedColumnNames="id"
                                  referencedTableName="jhi_user"/>
         
