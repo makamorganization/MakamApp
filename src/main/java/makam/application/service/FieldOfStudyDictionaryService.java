@@ -40,4 +40,6 @@ public interface FieldOfStudyDictionaryService {
      * @param id the id of the entity.
      */
     void delete(Long id);
+
+    List<FieldOfStudyDictionaryDTO> getFieldsOfStudyForFaculty(Long facultyId);
 }
