@@ -53,7 +53,7 @@ public class UserDetails implements Serializable {
     private UserDetailsExtras userDetailsExtras;
 
     @OneToOne
-    @JoinColumn(unique = true)
+    @JoinColumn(name="JHI_USER_ID", unique = true)
     private User user;
 
     @OneToMany(mappedBy = "userDetails")
