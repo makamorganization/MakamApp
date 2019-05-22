@@ -1,0 +1,23 @@
+{
+  "makamApp": {
+    "facultyDictionary": {
+      "home": {
+        "title": "Faculty Dictionaries",
+        "createLabel": "Create a new Faculty Dictionary",
+        "createOrEditLabel": "Create or edit a Faculty Dictionary"
+      },
+      "created": "A new Faculty Dictionary is created with identifier {{ param }}",
+      "updated": "A Faculty Dictionary is updated with identifier {{ param }}",
+      "deleted": "A Faculty Dictionary is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Faculty Dictionary {{ id }}?"
+      },
+      "detail": {
+        "title": "Faculty Dictionary"
+      },
+      "key": "Key",
+      "value": "Value",
+      "fieldOfStudy": "Field Of Study"
+    }
+  }
+}

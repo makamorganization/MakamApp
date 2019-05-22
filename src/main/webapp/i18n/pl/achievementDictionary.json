@@ -1,0 +1,25 @@
+{
+  "makamApp": {
+    "achievementDictionary": {
+      "home": {
+        "title": "Achievement Dictionary",
+        "createLabel": "Dodaj Achievement Dictionary",
+        "createOrEditLabel": "Dodaj lub edytuj: Achievement Dictionary"
+      },
+      "created": "Utworzono nowy obiekt typu Achievement Dictionary z identyfikatorem {{ param }}",
+      "updated": "Uaktualniono obiekt typu Achievement Dictionary z identyfikatorem {{ param }}",
+      "deleted": "Usunięto obiekt typu Achievement Dictionary z identyfikatorem {{ param }}",
+      "delete": {
+        "question": "Czy na pewno chcesz usunąć Achievement Dictionary {{ id }}?"
+      },
+      "detail": {
+        "title": "Achievement Dictionary"
+      },
+      "key": "Key",
+      "value": "Value",
+      "enabled": "Enabled",
+      "description": "Description",
+      "userDetails": "User Details"
+    }
+  }
+}

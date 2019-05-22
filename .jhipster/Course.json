@@ -1,0 +1,81 @@
+{
+    "name": "Course",
+    "fields": [
+        {
+            "fieldName": "title",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "description",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "courseStartDate",
+            "fieldType": "LocalDate"
+        },
+        {
+            "fieldName": "courseEndDate",
+            "fieldType": "LocalDate"
+        },
+        {
+            "fieldName": "registerStartDate",
+            "fieldType": "LocalDate"
+        },
+        {
+            "fieldName": "registerEndDate",
+            "fieldType": "LocalDate"
+        },
+        {
+            "fieldName": "duration",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "maximumNumberOfParticipants",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "minimalNumberOfParticipants",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "lecturerName",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "lecturerSurname",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "pointPerCourse",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "isVisibleInApp",
+            "fieldType": "Boolean"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "one-to-many",
+            "otherEntityName": "courseParticipant",
+            "otherEntityRelationshipName": "course",
+            "relationshipName": "courseParticipant"
+        },
+        {
+            "relationshipType": "one-to-one",
+            "otherEntityName": "certificate",
+            "otherEntityRelationshipName": "course",
+            "relationshipName": "certificate",
+            "ownerSide": false
+        }
+    ],
+    "changelogDate": "20190522184815",
+    "entityTableName": "course",
+    "dto": "mapstruct",
+    "pagination": "no",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

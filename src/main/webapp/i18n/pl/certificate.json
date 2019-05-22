@@ -1,0 +1,26 @@
+{
+  "makamApp": {
+    "certificate": {
+      "home": {
+        "title": "Certificate",
+        "createLabel": "Dodaj Certificate",
+        "createOrEditLabel": "Dodaj lub edytuj: Certificate"
+      },
+      "created": "Utworzono nowy obiekt typu Certificate z identyfikatorem {{ param }}",
+      "updated": "Uaktualniono obiekt typu Certificate z identyfikatorem {{ param }}",
+      "deleted": "Usunięto obiekt typu Certificate z identyfikatorem {{ param }}",
+      "delete": {
+        "question": "Czy na pewno chcesz usunąć Certificate {{ id }}?"
+      },
+      "detail": {
+        "title": "Certificate"
+      },
+      "title": "Title",
+      "path": "Path",
+      "validityEndDate": "Validity End Date",
+      "signature": "Signature",
+      "userDetails": "User Details",
+      "course": "Course"
+    }
+  }
+}

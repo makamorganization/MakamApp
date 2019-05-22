@@ -1,0 +1,27 @@
+{
+  "makamApp": {
+    "userDetailsExtras": {
+      "home": {
+        "title": "User Details Extras",
+        "createLabel": "Dodaj User Details Extras",
+        "createOrEditLabel": "Dodaj lub edytuj: User Details Extras"
+      },
+      "created": "Utworzono nowy obiekt typu User Details Extras z identyfikatorem {{ param }}",
+      "updated": "Uaktualniono obiekt typu User Details Extras z identyfikatorem {{ param }}",
+      "deleted": "Usunięto obiekt typu User Details Extras z identyfikatorem {{ param }}",
+      "delete": {
+        "question": "Czy na pewno chcesz usunąć User Details Extras {{ id }}?"
+      },
+      "detail": {
+        "title": "User Details Extras"
+      },
+      "numberOfPoints": "Number Of Points",
+      "numberOfBeingLateInRow": "Number Of Being Late In Row",
+      "numberOfCoursesFinished": "Number Of Courses Finished",
+      "numberOfBeingLateTotal": "Number Of Being Late Total",
+      "numberOfCoursesTotalOmited": "Number Of Courses Total Omited",
+      "numberOfCoursesOmitedInRow": "Number Of Courses Omited In Row",
+      "userDetails": "User Details"
+    }
+  }
+}

@@ -1,0 +1,85 @@
+entity Course {
+    title String,
+    description String,
+    courseStartDate LocalDate,
+    courseEndDate LocalDate,
+    registerStartDate LocalDate,
+    registerEndDate LocalDate,
+    duration Long,
+    maximumNumberOfParticipants Integer,
+    minimalNumberOfParticipants Integer,
+    lecturerName String,
+    lecturerSurname String,
+    pointPerCourse Integer,
+    isVisibleInApp Boolean
+}
+
+entity UserDetails {
+	studentCardNumber Integer,
+    name String,
+    surname String,
+    telephoneNumber String,
+    studyYear Integer,
+    faculty String,
+    fieldOfStudy String
+}
+
+
+entity UserDetailsExtras {
+	numberOfPoints Integer,
+    numberOfBeingLateInRow Integer,
+    numberOfCoursesFinished Integer,
+    numberOfBeingLateTotal Integer,
+    numberOfCoursesTotalOmited Integer,
+    numberOfCoursesOmitedInRow Integer
+}
+
+entity CourseParticipant {
+    isUserPresent Boolean,
+    isUserLate Boolean,
+    canCancelCourseAttendance Boolean
+}
+
+
+entity Certificate {
+	title String,
+    path String,
+    validityEndDate LocalDate,
+    signature Blob,
+}
+
+entity AchievementDictionary {
+	key String,
+    value String,
+    enabled Boolean,
+    description String
+}
+
+entity FacultyDictionary {
+	key String,
+    value String
+}
+
+entity FieldOfStudyDictionary {
+	key String,
+    value String
+}
+
+relationship OneToMany {
+	Course{courseParticipant} to CourseParticipant,
+    UserDetails{certificate} to Certificate,
+    FacultyDictionary{fieldOfStudy} to FieldOfStudyDictionary
+}
+
+relationship ManyToMany {
+	UserDetails{achievementDictionary} to AchievementDictionary{userDetails}
+}
+
+relationship OneToOne {
+	CourseParticipant{user} to UserDetails{courseParticipant},
+    Certificate{course} to Course{certificate}
+    UserDetails{userDetailsExtras} to UserDetailsExtras{userDetails}
+}
+
+service all with serviceImpl
+dto all with mapstruct

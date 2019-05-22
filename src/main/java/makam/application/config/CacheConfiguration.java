@@ -43,6 +43,19 @@ public class CacheConfiguration {
             createCache(cm, makam.application.domain.User.class.getName());
             createCache(cm, makam.application.domain.Authority.class.getName());
             createCache(cm, makam.application.domain.User.class.getName() + ".authorities");
+            createCache(cm, makam.application.domain.Course.class.getName());
+            createCache(cm, makam.application.domain.Course.class.getName() + ".courseParticipants");
+            createCache(cm, makam.application.domain.UserDetails.class.getName());
+            createCache(cm, makam.application.domain.UserDetails.class.getName() + ".certificates");
+            createCache(cm, makam.application.domain.UserDetails.class.getName() + ".achievementDictionaries");
+            createCache(cm, makam.application.domain.UserDetailsExtras.class.getName());
+            createCache(cm, makam.application.domain.CourseParticipant.class.getName());
+            createCache(cm, makam.application.domain.Certificate.class.getName());
+            createCache(cm, makam.application.domain.AchievementDictionary.class.getName());
+            createCache(cm, makam.application.domain.AchievementDictionary.class.getName() + ".userDetails");
+            createCache(cm, makam.application.domain.FacultyDictionary.class.getName());
+            createCache(cm, makam.application.domain.FacultyDictionary.class.getName() + ".fieldOfStudies");
+            createCache(cm, makam.application.domain.FieldOfStudyDictionary.class.getName());
             // jhipster-needle-ehcache-add-entry
         };
     }
