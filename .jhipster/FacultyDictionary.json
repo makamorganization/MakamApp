@@ -1,0 +1,30 @@
+{
+    "name": "FacultyDictionary",
+    "fields": [
+        {
+            "fieldName": "key",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "value",
+            "fieldType": "String"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "one-to-many",
+            "otherEntityName": "fieldOfStudyDictionary",
+            "otherEntityRelationshipName": "facultyDictionary",
+            "relationshipName": "fieldOfStudy"
+        }
+    ],
+    "changelogDate": "20190522184821",
+    "entityTableName": "faculty_dictionary",
+    "dto": "mapstruct",
+    "pagination": "no",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

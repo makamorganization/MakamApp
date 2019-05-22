@@ -1,0 +1,31 @@
+{
+  "makamApp": {
+    "userDetails": {
+      "home": {
+        "title": "User Details",
+        "createLabel": "Dodaj User Details",
+        "createOrEditLabel": "Dodaj lub edytuj: User Details"
+      },
+      "created": "Utworzono nowy obiekt typu User Details z identyfikatorem {{ param }}",
+      "updated": "Uaktualniono obiekt typu User Details z identyfikatorem {{ param }}",
+      "deleted": "Usunięto obiekt typu User Details z identyfikatorem {{ param }}",
+      "delete": {
+        "question": "Czy na pewno chcesz usunąć User Details {{ id }}?"
+      },
+      "detail": {
+        "title": "User Details"
+      },
+      "studentCardNumber": "Student Card Number",
+      "name": "Name",
+      "surname": "Surname",
+      "telephoneNumber": "Telephone Number",
+      "studyYear": "Study Year",
+      "faculty": "Faculty",
+      "fieldOfStudy": "Field Of Study",
+      "userDetailsExtras": "User Details Extras",
+      "certificate": "Certificate",
+      "achievementDictionary": "Achievement Dictionary",
+      "courseParticipant": "Course Participant"
+    }
+  }
+}
