@@ -40,13 +40,20 @@ spring:
     url: jdbc:h2:file:./target/h2db/db/makamapp;DB_CLOSE_DELAY=-1
     username: MakamApp
     password:
+#  postgres configuration
+#    type: com.zaxxer.hikari.HikariDataSource
+#    url: jdbc:postgresql://localhost:5432/test3
+#    username: postgres
+#    password: 1234
     hikari:
       poolName: Hikari
       auto-commit: false
+#for h2 usage
   h2:
     console:
       enabled: false
   jpa:
+# for h2 usage
     database-platform: io.github.jhipster.domain.util.FixedH2Dialect
     database: H2
     show-sql: true

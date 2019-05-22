@@ -136,6 +136,7 @@ public class UserService {
         newUser.setEmail(userDTO.getEmail().toLowerCase());
         newUser.setImageUrl(userDTO.getImageUrl());
         newUser.setLangKey(userDTO.getLangKey());
+        newUser.setCreatedBy(userDTO.getCreatedBy());
         //temporarly for tests
         newUser.setActivated(true);
         newUser.setActivationKey(RandomUtil.generateActivationKey());
