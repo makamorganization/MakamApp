@@ -29,7 +29,6 @@ spring:
   devtools:
     restart:
       enabled: true
-      additional-exclude: .h2.server.properties
     livereload:
       enabled: false # we use Webpack dev server + BrowserSync for livereload
   jackson:
@@ -37,25 +36,22 @@ spring:
       indent-output: true
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:h2:file:./target/h2db/db/makamapp;DB_CLOSE_DELAY=-1
-    username: MakamApp
-    password:
-#  postgres configuration
-#    type: com.zaxxer.hikari.HikariDataSource
-#    url: jdbc:postgresql://localhost:5432/test3
-#    username: postgres
-#    password: 1234
+    url: ${JDBC_DATABASE_URL}
+    username: ${JDBC_DATABASE_USERNAME}
+    password: ${JDBC_DATABASE_PASSWORD}
+    #  postgres configuration
+    #    type: com.zaxxer.hikari.HikariDataSource
+    #    url: jdbc:postgresql://localhost:5432/test3
+    #    username: postgres
+    #    password: 1234
     hikari:
       poolName: Hikari
       auto-commit: false
-#for h2 usage
-  h2:
-    console:
-      enabled: false
+  #for h2 usage
   jpa:
-# for h2 usage
+    # for h2 usage
     database-platform: io.github.jhipster.domain.util.FixedH2Dialect
-    database: H2
+    database: POSTGRESQL
     show-sql: true
     properties:
       hibernate.id.new_generator_mappings: true
