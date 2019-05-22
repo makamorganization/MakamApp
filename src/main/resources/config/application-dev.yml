@@ -41,13 +41,13 @@ spring:
     username: MakamApp
     password:
 #   postgres configuration
-#   type: com.zaxxer.hikari.HikariDataSource
-#   url: jdbc:postgresql://localhost:5432/test3
-#   username: postgres
-#   password: 1234
+#    type: com.zaxxer.hikari.HikariDataSource
+#    url: jdbc:postgresql://localhost:5432/test4
+#    username: postgres
+#    password: 1234
     hikari:
-      poolName: Hikari
-      auto-commit: false
+        poolName: Hikari
+        auto-commit: false
 #for h2 usage
   h2:
     console:
@@ -63,6 +63,7 @@ spring:
       hibernate.cache.use_second_level_cache: true
       hibernate.cache.use_query_cache: false
       hibernate.generate_statistics: false
+      hibernate.hbm2ddl.auto: update
   liquibase:
     # Remove 'faker' if you do not want the sample data to be loaded automatically
     contexts: dev, faker
