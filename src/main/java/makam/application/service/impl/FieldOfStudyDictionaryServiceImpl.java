@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -86,5 +87,21 @@ public class FieldOfStudyDictionaryServiceImpl implements FieldOfStudyDictionary
     public void delete(Long id) {
         log.debug("Request to delete FieldOfStudyDictionary : {}", id);
         fieldOfStudyDictionaryRepository.deleteById(id);
+    }
+
+    @Override
+    public List<FieldOfStudyDictionaryDTO> getFieldsOfStudyForFaculty(Long facultyId) {
+        List<FieldOfStudyDictionaryDTO> fieldsOfStudies = fieldOfStudyDictionaryRepository.findAll().stream()
+            .map(fieldOfStudyDictionaryMapper::toDto)
+            .collect(Collectors.toCollection(LinkedList::new));
+        List<FieldOfStudyDictionaryDTO> fieldsOfStudiesForFaculty = new ArrayList<>();
+        for (FieldOfStudyDictionaryDTO fieldOfStudyDictionaryDTO : fieldsOfStudies) {
+            if (fieldOfStudyDictionaryDTO != null) {
+                if (fieldOfStudyDictionaryDTO.getFacultyDictionaryId().equals(facultyId)) {
+                    fieldsOfStudiesForFaculty.add(fieldOfStudyDictionaryDTO);
+                }
+            }
+        }
+        return fieldsOfStudiesForFaculty;
     }
 }
