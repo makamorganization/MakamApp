@@ -3,14 +3,13 @@ import { connect } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { Button, Col, Row, Table } from 'reactstrap';
 // tslint:disable-next-line:no-unused-variable
-import { Translate, ICrudGetAllAction, TextFormat } from 'react-jhipster';
+import { TextFormat, Translate } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { IRootState } from 'app/shared/reducers';
 import { getEntities } from './course.reducer';
-import { ICourse } from 'app/shared/model/course.model';
 // tslint:disable-next-line:no-unused-variable
-import { APP_DATE_FORMAT, APP_LOCAL_DATE_FORMAT } from 'app/config/constants';
+import { APP_LOCAL_DATE_FORMAT } from 'app/config/constants';
 
 export interface ICourseProps extends StateProps, DispatchProps, RouteComponentProps<{ url: string }> {}
 
@@ -108,7 +107,13 @@ export class Course extends React.Component<ICourseProps> {
                   <td>{course.lecturerName}</td>
                   <td>{course.lecturerSurname}</td>
                   <td>{course.pointPerCourse}</td>
-                  <td>{course.isVisibleInApp ? 'true' : 'false'}</td>
+                  <td>
+                    {course.isVisibleInApp ? (
+                      <Translate contentKey="makamApp.course.yes">yes</Translate>
+                    ) : (
+                      <Translate contentKey="makamApp.course.no">no</Translate>
+                    )}
+                  </td>
                   <td className="text-right">
                     <div className="btn-group flex-btn-group-container">
                       <Button tag={Link} to={`${match.url}/${course.id}`} color="info" size="sm">
