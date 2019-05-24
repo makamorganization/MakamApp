@@ -29,7 +29,9 @@
       "pointPerCourse": "Point Per Course",
       "isVisibleInApp": "Is Visible In App",
       "courseParticipant": "Course Participant",
-      "certificate": "Certificate"
+      "certificate": "Certificate",
+      "yes": "yes",
+      "no": "no"
     }
   }
 }
