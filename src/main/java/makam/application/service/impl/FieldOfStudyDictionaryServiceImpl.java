@@ -97,7 +97,7 @@ public class FieldOfStudyDictionaryServiceImpl implements FieldOfStudyDictionary
         List<FieldOfStudyDictionaryDTO> fieldsOfStudiesForFaculty = new ArrayList<>();
         for (FieldOfStudyDictionaryDTO fieldOfStudyDictionaryDTO : fieldsOfStudies) {
             if (fieldOfStudyDictionaryDTO != null) {
-                if (fieldOfStudyDictionaryDTO.getFacultyDictionaryId().equals(facultyId)) {
+                if (fieldOfStudyDictionaryDTO.getFacultyDictionaryId() != null && fieldOfStudyDictionaryDTO.getFacultyDictionaryId().equals(facultyId)) {
                     fieldsOfStudiesForFaculty.add(fieldOfStudyDictionaryDTO);
                 }
             }
