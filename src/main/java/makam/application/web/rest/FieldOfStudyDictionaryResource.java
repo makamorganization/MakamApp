@@ -115,7 +115,7 @@ public class FieldOfStudyDictionaryResource {
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString())).build();
     }
 
-    @GetMapping("/field-of-study-dictionaries-for-faculty/{facultyId}")
+    @GetMapping("/field-of-study-dictionaries/for-faculty/{facultyId}")
     public List<FieldOfStudyDictionaryDTO> getFieldsOfStudiesForFaculty(@PathVariable Long facultyId) {
         log.debug("REST request to get FieldsOfStudiesForFaculty : {}", facultyId);
         return fieldOfStudyDictionaryService.getFieldsOfStudyForFaculty(facultyId);
