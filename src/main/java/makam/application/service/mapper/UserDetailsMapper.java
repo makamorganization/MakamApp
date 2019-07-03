@@ -16,7 +16,7 @@ public interface UserDetailsMapper extends EntityMapper<UserDetailsDTO, UserDeta
 
     @Mapping(source = "userDetailsExtrasId", target = "userDetailsExtras")
     @Mapping(target = "certificates", ignore = true)
-    @Mapping(target = "courseParticipant", ignore = true)
+    @Mapping(target = "courseParticipants", ignore = true)
     UserDetails toEntity(UserDetailsDTO userDetailsDTO);
 
     default UserDetails fromId(Long id) {
