@@ -46,4 +46,10 @@ public interface CourseService {
      * @param id the id of the entity.
      */
     void delete(Long id);
+
+    void singUpForCourse(Long courseId);
+
+    void signOutFromCourse(Long courseId);
+
+    List<CourseDTO> getCoursesForUser();
 }

@@ -9,6 +9,7 @@ import javax.persistence.*;
 
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.Objects;
 
@@ -23,8 +24,7 @@ public class UserDetails implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
-    @SequenceGenerator(name = "sequenceGenerator")
+    @GeneratedValue(strategy=GenerationType.AUTO)
     private Long id;
 
     @Column(name = "student_card_number")
@@ -63,9 +63,9 @@ public class UserDetails implements Serializable {
                inverseJoinColumns = @JoinColumn(name = "achievement_dictionary_id", referencedColumnName = "id"))
     private Set<AchievementDictionary> achievementDictionaries = new HashSet<>();
 
-    @OneToOne(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnore
-    private CourseParticipant courseParticipant;
+    private Set<CourseParticipant> courseParticipants = new HashSet<>();
 
     @OneToOne
     @JoinColumn(name="jhi_user_id", unique = true)
@@ -242,17 +242,16 @@ public class UserDetails implements Serializable {
         this.achievementDictionaries = achievementDictionaries;
     }
 
-    public CourseParticipant getCourseParticipant() {
-        return courseParticipant;
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
     }
 
-    public UserDetails courseParticipant(CourseParticipant courseParticipant) {
-        this.courseParticipant = courseParticipant;
-        return this;
+    public Set<CourseParticipant> getCourseParticipants() {
+        return courseParticipants;
     }
 
-    public void setCourseParticipant(CourseParticipant courseParticipant) {
-        this.courseParticipant = courseParticipant;
+    public void setCourseParticipants(Set<CourseParticipant> courseParticipants) {
+        this.courseParticipants = courseParticipants;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 

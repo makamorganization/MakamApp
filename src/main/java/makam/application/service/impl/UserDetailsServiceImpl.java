@@ -85,7 +85,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         log.debug("Request to get all userDetails where CourseParticipant is null");
         return StreamSupport
             .stream(userDetailsRepository.findAll().spliterator(), false)
-            .filter(userDetails -> userDetails.getCourseParticipant() == null)
+            .filter(userDetails -> userDetails.getCourseParticipants() == null)
             .map(userDetailsMapper::toDto)
             .collect(Collectors.toCollection(LinkedList::new));
     }

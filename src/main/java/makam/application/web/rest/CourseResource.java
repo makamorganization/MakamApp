@@ -9,6 +9,7 @@ import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -119,5 +120,25 @@ public class CourseResource {
         log.debug("REST request to delete Course : {}", id);
         courseService.delete(id);
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString())).build();
+    }
+
+    @GetMapping("/courses/getCoursesForUser")
+    public List<CourseDTO> getCoursesForUser() {
+        log.debug("REST request to getCoursesForUser");
+        return courseService.getCoursesForUser();
+    }
+
+    @PutMapping("/courses/signUpForCourse/{id}")
+    public ResponseEntity<Void> signUpForCourse(@PathVariable Long id) {
+        log.debug("REST request to signUpForCourse");
+        courseService.singUpForCourse(id);
+        return new ResponseEntity<Void>(HttpStatus.OK);
+    }
+
+    @PutMapping("/courses/signOutFromCourse/{id}")
+    public ResponseEntity<Void> signOutFromCourse(@PathVariable Long id) {
+        log.debug("REST request to signUpForCourse");
+        courseService.signOutFromCourse(id);
+        return new ResponseEntity<Void>(HttpStatus.OK);
     }
 }

@@ -21,8 +21,7 @@ public class CourseParticipant implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
-    @SequenceGenerator(name = "sequenceGenerator")
+    @GeneratedValue(strategy=GenerationType.AUTO)
     private Long id;
 
     @Column(name = "is_user_present")
@@ -38,8 +37,8 @@ public class CourseParticipant implements Serializable {
     @JsonIgnoreProperties("courseParticipants")
     private Course course;
 
-    @OneToOne
-    @JoinColumn(unique = true)
+    @ManyToOne
+    @JsonIgnoreProperties("courseParticipants")
     private UserDetails user;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove

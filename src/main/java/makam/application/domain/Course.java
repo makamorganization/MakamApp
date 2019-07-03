@@ -24,8 +24,7 @@ public class Course implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
-    @SequenceGenerator(name = "sequenceGenerator")
+    @GeneratedValue(strategy=GenerationType.AUTO)
     private Long id;
 
     @Column(name = "title")
@@ -67,7 +66,7 @@ public class Course implements Serializable {
     @Column(name = "is_visible_in_app")
     private Boolean isVisibleInApp;
 
-    @OneToMany(mappedBy = "course")
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<CourseParticipant> courseParticipants = new HashSet<>();
 
