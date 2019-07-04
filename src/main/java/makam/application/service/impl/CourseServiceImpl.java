@@ -2,6 +2,7 @@ package makam.application.service.impl;
 
 import makam.application.domain.CourseParticipant;
 import makam.application.domain.User;
+import makam.application.domain.UserDetails;
 import makam.application.service.CourseService;
 import makam.application.domain.Course;
 import makam.application.repository.CourseRepository;
@@ -198,8 +199,11 @@ public class CourseServiceImpl implements CourseService {
         Set<CourseParticipant> courseParticipants = course.getCourseParticipants();
         for (CourseParticipant courseParticipant : courseParticipants) {
             if (courseParticipant != null) {
-                if (courseParticipant.getUser().getUser().getId().equals(userId)) {
-                    return true;
+                UserDetails userDetails = courseParticipant.getUser();
+                if (userDetails != null) {
+                    if (userDetails.getUser() != null && userDetails.getUser().getId().equals(userId)) {
+                        return true;
+                    }
                 }
             }
         }
