@@ -4,6 +4,7 @@ import makam.application.MakamApp;
 import makam.application.domain.Course;
 import makam.application.repository.CourseRepository;
 import makam.application.service.CourseService;
+import makam.application.service.UserService;
 import makam.application.service.dto.CourseDTO;
 import makam.application.service.mapper.CourseMapper;
 import makam.application.web.rest.errors.ExceptionTranslator;
@@ -22,8 +23,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.Validator;
 
 import javax.persistence.EntityManager;
-import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.List;
 
 import static makam.application.web.rest.TestUtil.createFormattingConversionService;
@@ -38,23 +37,26 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = MakamApp.class)
 public class CourseResourceIT {
 
+    private static final Long MILISECONDS_IN_HOUR = 360000L;
+    private static final Long CURRENT_TIME = System.currentTimeMillis();
+    
     private static final String DEFAULT_TITLE = "AAAAAAAAAA";
     private static final String UPDATED_TITLE = "BBBBBBBBBB";
 
     private static final String DEFAULT_DESCRIPTION = "AAAAAAAAAA";
     private static final String UPDATED_DESCRIPTION = "BBBBBBBBBB";
 
-    private static final LocalDate DEFAULT_COURSE_START_DATE = LocalDate.ofEpochDay(0L);
-    private static final LocalDate UPDATED_COURSE_START_DATE = LocalDate.now(ZoneId.systemDefault());
+    private static final Long DEFAULT_COURSE_START_DATE = CURRENT_TIME;
+    private static final Long UPDATED_COURSE_START_DATE = CURRENT_TIME + MILISECONDS_IN_HOUR;
 
-    private static final LocalDate DEFAULT_COURSE_END_DATE = LocalDate.ofEpochDay(0L);
-    private static final LocalDate UPDATED_COURSE_END_DATE = LocalDate.now(ZoneId.systemDefault());
+    private static final Long DEFAULT_COURSE_END_DATE = CURRENT_TIME;
+    private static final Long UPDATED_COURSE_END_DATE = CURRENT_TIME + MILISECONDS_IN_HOUR;
 
-    private static final LocalDate DEFAULT_REGISTER_START_DATE = LocalDate.ofEpochDay(0L);
-    private static final LocalDate UPDATED_REGISTER_START_DATE = LocalDate.now(ZoneId.systemDefault());
+    private static final Long DEFAULT_REGISTER_START_DATE = CURRENT_TIME;
+    private static final Long UPDATED_REGISTER_START_DATE = CURRENT_TIME + MILISECONDS_IN_HOUR;
 
-    private static final LocalDate DEFAULT_REGISTER_END_DATE = LocalDate.ofEpochDay(0L);
-    private static final LocalDate UPDATED_REGISTER_END_DATE = LocalDate.now(ZoneId.systemDefault());
+    private static final Long DEFAULT_REGISTER_END_DATE = CURRENT_TIME;
+    private static final Long UPDATED_REGISTER_END_DATE = CURRENT_TIME + MILISECONDS_IN_HOUR;
 
     private static final Long DEFAULT_DURATION = 1L;
     private static final Long UPDATED_DURATION = 2L;
@@ -87,6 +89,9 @@ public class CourseResourceIT {
     private CourseService courseService;
 
     @Autowired
+    private UserService userService;
+
+    @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Autowired
@@ -108,7 +113,7 @@ public class CourseResourceIT {
     @BeforeEach
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final CourseResource courseResource = new CourseResource(courseService);
+        final CourseResource courseResource = new CourseResource(courseService, userService);
         this.restCourseMockMvc = MockMvcBuilders.standaloneSetup(courseResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)

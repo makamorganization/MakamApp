@@ -289,6 +289,15 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
+    public User getLoggedUser() {
+        Optional<User> optionalUser = getUserWithAuthorities();
+        if (!optionalUser.isPresent()) {
+            throw new ResourceNotFound("Logged user not found");
+        }
+        return optionalUser.get();
+    }
+
+    @Transactional(readOnly = true)
     public Optional<User> getUserWithAuthorities() {
         return SecurityUtils.getCurrentUserLogin().flatMap(userRepository::findOneWithAuthoritiesByLogin);
     }

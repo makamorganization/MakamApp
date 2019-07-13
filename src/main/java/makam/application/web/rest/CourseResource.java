@@ -1,6 +1,8 @@
 package makam.application.web.rest;
 
+import makam.application.domain.User;
 import makam.application.service.CourseService;
+import makam.application.service.UserService;
 import makam.application.web.rest.errors.BadRequestAlertException;
 import makam.application.service.dto.CourseDTO;
 
@@ -25,7 +27,7 @@ import java.util.stream.StreamSupport;
  */
 @RestController
 @RequestMapping("/api")
-public class CourseResource {
+public class CourseResource extends BaseResource {
 
     private final Logger log = LoggerFactory.getLogger(CourseResource.class);
 
@@ -36,7 +38,8 @@ public class CourseResource {
 
     private final CourseService courseService;
 
-    public CourseResource(CourseService courseService) {
+    public CourseResource(CourseService courseService, UserService userService) {
+        super(userService);
         this.courseService = courseService;
     }
 
@@ -81,22 +84,6 @@ public class CourseResource {
     }
 
     /**
-     * {@code GET  /courses} : get all the courses.
-     *
-     * @param filter the filter of the request.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of courses in body.
-     */
-    @GetMapping("/courses")
-    public List<CourseDTO> getAllCourses(@RequestParam(required = false) String filter) {
-        if ("certificate-is-null".equals(filter)) {
-            log.debug("REST request to get all Courses where certificate is null");
-            return courseService.findAllWhereCertificateIsNull();
-        }
-        log.debug("REST request to get all Courses");
-        return courseService.findAll();
-    }
-
-    /**
      * {@code GET  /courses/:id} : get the "id" course.
      *
      * @param id the id of the courseDTO to retrieve.
@@ -122,23 +109,32 @@ public class CourseResource {
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString())).build();
     }
 
-    @GetMapping("/courses/getCoursesForUser")
-    public List<CourseDTO> getCoursesForUser() {
+    @GetMapping("/courses")
+    public List<CourseDTO> getCoursesForUser(@RequestParam(required = false) Boolean coursesForUser) {
         log.debug("REST request to getCoursesForUser");
-        return courseService.getCoursesForUser();
+        User user = userService.getLoggedUser();
+        if (coursesForUser == null) {
+            return courseService.findAll();
+        } else if(coursesForUser) {
+            return courseService.getCoursesForUser(user.getId());
+        } else {
+            return courseService.getCoursesExceptUser(user.getId());
+        }
     }
 
-    @PutMapping("/courses/signUpForCourse/{id}")
-    public ResponseEntity<Void> signUpForCourse(@PathVariable Long id) {
+    @PutMapping("/courses/signUp/{id}")
+    public ResponseEntity<Void> signUp(@PathVariable Long id) {
         log.debug("REST request to signUpForCourse");
-        courseService.singUpForCourse(id);
+        User user = userService.getLoggedUser();
+        courseService.singUpForCourse(id, user.getId());
         return new ResponseEntity<Void>(HttpStatus.OK);
     }
 
-    @PutMapping("/courses/signOutFromCourse/{id}")
-    public ResponseEntity<Void> signOutFromCourse(@PathVariable Long id) {
+    @PutMapping("/courses/signOut/{id}")
+    public ResponseEntity<Void> signOut(@PathVariable Long id) {
         log.debug("REST request to signUpForCourse");
-        courseService.signOutFromCourse(id);
+        User user = userService.getLoggedUser();
+        courseService.signOutFromCourse(id, user.getId());
         return new ResponseEntity<Void>(HttpStatus.OK);
     }
 }

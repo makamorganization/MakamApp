@@ -1,6 +1,6 @@
 package makam.application.service.dto;
-import java.time.LocalDate;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Objects;
 
 /**
@@ -14,13 +14,13 @@ public class CourseDTO implements Serializable {
 
     private String description;
 
-    private LocalDate courseStartDate;
+    private Long courseStartDate;
 
-    private LocalDate courseEndDate;
+    private Long courseEndDate;
 
-    private LocalDate registerStartDate;
+    private Long registerStartDate;
 
-    private LocalDate registerEndDate;
+    private Long registerEndDate;
 
     private Long duration;
 
@@ -35,7 +35,6 @@ public class CourseDTO implements Serializable {
     private Integer pointPerCourse;
 
     private Boolean isVisibleInApp;
-
 
     public Long getId() {
         return id;
@@ -61,35 +60,35 @@ public class CourseDTO implements Serializable {
         this.description = description;
     }
 
-    public LocalDate getCourseStartDate() {
+    public Long getCourseStartDate() {
         return courseStartDate;
     }
 
-    public void setCourseStartDate(LocalDate courseStartDate) {
+    public void setCourseStartDate(Long courseStartDate) {
         this.courseStartDate = courseStartDate;
     }
 
-    public LocalDate getCourseEndDate() {
+    public Long getCourseEndDate() {
         return courseEndDate;
     }
 
-    public void setCourseEndDate(LocalDate courseEndDate) {
+    public void setCourseEndDate(Long courseEndDate) {
         this.courseEndDate = courseEndDate;
     }
 
-    public LocalDate getRegisterStartDate() {
+    public Long getRegisterStartDate() {
         return registerStartDate;
     }
 
-    public void setRegisterStartDate(LocalDate registerStartDate) {
+    public void setRegisterStartDate(Long registerStartDate) {
         this.registerStartDate = registerStartDate;
     }
 
-    public LocalDate getRegisterEndDate() {
+    public Long getRegisterEndDate() {
         return registerEndDate;
     }
 
-    public void setRegisterEndDate(LocalDate registerEndDate) {
+    public void setRegisterEndDate(Long registerEndDate) {
         this.registerEndDate = registerEndDate;
     }
 
@@ -141,12 +140,12 @@ public class CourseDTO implements Serializable {
         this.pointPerCourse = pointPerCourse;
     }
 
-    public Boolean isIsVisibleInApp() {
+    public Boolean getVisibleInApp() {
         return isVisibleInApp;
     }
 
-    public void setIsVisibleInApp(Boolean isVisibleInApp) {
-        this.isVisibleInApp = isVisibleInApp;
+    public void setVisibleInApp(Boolean visibleInApp) {
+        isVisibleInApp = visibleInApp;
     }
 
     @Override
@@ -186,7 +185,6 @@ public class CourseDTO implements Serializable {
             ", lecturerName='" + getLecturerName() + "'" +
             ", lecturerSurname='" + getLecturerSurname() + "'" +
             ", pointPerCourse=" + getPointPerCourse() +
-            ", isVisibleInApp='" + isIsVisibleInApp() + "'" +
             "}";
     }
 }

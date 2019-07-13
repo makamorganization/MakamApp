@@ -3,14 +3,15 @@ package makam.application.service.impl;
 import makam.application.domain.CourseParticipant;
 import makam.application.domain.User;
 import makam.application.domain.UserDetails;
+import makam.application.service.CourseParticipantService;
 import makam.application.service.CourseService;
 import makam.application.domain.Course;
 import makam.application.repository.CourseRepository;
 import makam.application.service.UserService;
 import makam.application.service.dto.CourseDTO;
-import makam.application.service.dto.UserDTO;
+import makam.application.service.dto.CourseParticipantDTO;
 import makam.application.service.mapper.CourseMapper;
-import makam.application.web.rest.AccountResource;
+import makam.application.service.mapper.CourseParticipantMapper;
 import makam.application.web.rest.errors.BadRequestAlertException;
 import makam.application.web.rest.errors.FullNumberOfParticipantsInCourseException;
 import makam.application.web.rest.errors.ResourceNotFound;
@@ -20,6 +21,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -39,11 +41,16 @@ public class CourseServiceImpl implements CourseService {
     private final CourseMapper courseMapper;
 
     private final UserService userService;
+    private final CourseParticipantService courseParticipantService;
+    private final CourseParticipantMapper courseParticipantMapper;
 
-    public CourseServiceImpl(CourseRepository courseRepository, CourseMapper courseMapper, UserService userService) {
+    public CourseServiceImpl(CourseRepository courseRepository, CourseMapper courseMapper, UserService userService, CourseParticipantService courseParticipantService,
+                             CourseParticipantMapper courseParticipantMapper) {
         this.courseRepository = courseRepository;
         this.courseMapper = courseMapper;
         this.userService = userService;
+        this.courseParticipantService = courseParticipantService;
+        this.courseParticipantMapper = courseParticipantMapper;
     }
 
     /**
@@ -116,97 +123,95 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public void singUpForCourse(Long courseId) {
-        log.debug("Request to assing user to course : {}", courseId);
+    @Transactional
+    public void singUpForCourse(Long courseId, Long userId) {
         Optional<Course> optionalCourse = courseRepository.findById(courseId);
         if (!optionalCourse.isPresent()) {
             throw new ResourceNotFound("Course not found");
         }
         Course course = optionalCourse.get();
+        Optional<User> optionalUser = userService.getUserWithAuthorities(userId);
+        if (!optionalUser.isPresent()) {
+            throw new ResourceNotFound("User not found");
+        }
+        User user = optionalUser.get();
+        if (!courseRepository.findAllByUserIdAndCourseId(user.getId(), courseId).isEmpty()) {
+            throw new BadRequestAlertException("You are already signed for this course", "course", "400");
+        }
         int courseParticipantsCount = course.getCourseParticipants().size();
         if (courseParticipantsCount == course.getMaximumNumberOfParticipants()) {
             throw new FullNumberOfParticipantsInCourseException("Course has full number of participants");
         }
-        LocalDate actualDate = LocalDate.now();
-        if (actualDate.isBefore(course.getRegisterStartDate())) {
+        Long actualTimeStampp = System.currentTimeMillis();
+        if (actualTimeStampp < course.getRegisterStartDate()) {
             throw new BadRequestAlertException("Course register date has not started yet", "course", "400");
         }
-        Optional<User> loggedUser = userService.getUserWithAuthorities();
-        if (!loggedUser.isPresent()) {
-            throw new ResourceNotFound("User not found");
-        }
-        User currentUser = loggedUser.get();
-        if (checkIfCourseHasUser(currentUser.getId(), course)) {
-            throw new BadRequestAlertException("You are already signed for this course", "course", "400");
-        }
         CourseParticipant courseParticipant = new CourseParticipant();
-        courseParticipant.setUser(currentUser.getUserDetails());
+        courseParticipant.setUser(user.getUserDetails());
         course = course.addCourseParticipant(courseParticipant);
         courseRepository.save(course);
     }
 
     @Override
-    public void signOutFromCourse(Long courseId) {
-        log.debug("Request to assing user to course : {}", courseId);
+    @Transactional
+    public void signOutFromCourse(Long courseId, Long userId) {
         Optional<Course> optionalCourse = courseRepository.findById(courseId);
         if (!optionalCourse.isPresent()) {
             throw new ResourceNotFound("Course not found");
         }
         Course course = optionalCourse.get();
-        Optional<User> loggedUser = userService.getUserWithAuthorities();
-        if (!loggedUser.isPresent()) {
+        Optional<User> optionalUser = userService.getUserWithAuthorities(userId);
+        if (!optionalUser.isPresent()) {
             throw new ResourceNotFound("User not found");
         }
-        User currentUser = loggedUser.get();
+        User user = optionalUser.get();
         Set<CourseParticipant> courseParticipants = course.getCourseParticipants();
+        if (courseRepository.findAllByUserIdAndCourseId(user.getId(), courseId).isEmpty()) {
+            throw new BadRequestAlertException("You are not signed for this course", "course", "400");
+        }
+        CourseParticipant courseParticipantToRemove = getCourseParticipantToRemove(user, courseParticipants);
+        if (courseParticipantToRemove == null) {
+            throw new BadRequestAlertException("Course register date has not started yet", "course", "400");
+        }
+        course = course.removeCourseParticipant(courseParticipantToRemove);
+        courseRepository.save(course);
+        courseParticipantService.delete(courseParticipantToRemove.getId());
+    }
+
+    private CourseParticipant getCourseParticipantToRemove(User user, Set<CourseParticipant> courseParticipants) {
         CourseParticipant courseParticipantToRemove = null;
         for (CourseParticipant courseParticipant : courseParticipants) {
             if (courseParticipant != null) {
-                if (currentUser.getUserDetails().getId().equals(courseParticipant.getUser().getId())) {
-                    courseParticipantToRemove = courseParticipant;
-                }
-            }
-        }
-        if (courseParticipantToRemove != null) {
-            course = course.removeCourseParticipant(courseParticipantToRemove);
-        }
-        courseRepository.save(course);
-    }
-
-    @Override
-    public List<CourseDTO> getCoursesForUser() {
-        Optional<User> loggedUser = userService.getUserWithAuthorities();
-        if (!loggedUser.isPresent()) {
-            throw new ResourceNotFound("User not found");
-        }
-        User currentUser = loggedUser.get();
-        List<Course> userCourses = new ArrayList<>();
-        List<Course> allCourses = courseRepository.findAll();
-        for (Course course : allCourses) {
-            if (checkIfCourseHasUser(currentUser.getId(), course)) {
-                userCourses.add(course);
-            }
-        }
-        return userCourses.stream()
-            .map(courseMapper::toDto)
-            .collect(Collectors.toCollection(LinkedList::new));
-    }
-
-    private boolean checkIfCourseHasUser(Long userId, Course course) {
-        if (course == null || userId == null) {
-            return false;
-        }
-        Set<CourseParticipant> courseParticipants = course.getCourseParticipants();
-        for (CourseParticipant courseParticipant : courseParticipants) {
-            if (courseParticipant != null) {
-                UserDetails userDetails = courseParticipant.getUser();
-                if (userDetails != null) {
-                    if (userDetails.getUser() != null && userDetails.getUser().getId().equals(userId)) {
-                        return true;
+                UserDetails userDetails = user.getUserDetails();
+                UserDetails userDetailsOfCourseParticipant = courseParticipant.getUser();
+                if (userDetails != null && userDetailsOfCourseParticipant != null) {
+                    if (userDetails.getId().equals(userDetailsOfCourseParticipant.getId())) {
+                        courseParticipantToRemove = courseParticipant;
+                        break;
                     }
                 }
             }
         }
-        return false;
+        return courseParticipantToRemove;
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<CourseDTO> getCoursesForUser(Long userId) {
+        return courseRepository.findAllByUserId(userId).stream()
+            .map(courseMapper::toDto)
+            .collect(Collectors.toCollection(LinkedList::new));
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<CourseDTO> getCoursesExceptUser(Long userId) {
+        List<Course> allCourses = courseRepository.findAll();
+        List<Course> userCourses = courseRepository.findAllByUserId(userId);
+        allCourses.removeAll(userCourses);
+        return allCourses.stream()
+            .map(courseMapper::toDto)
+            .collect(Collectors.toCollection(LinkedList::new));
+    }
+
 }
