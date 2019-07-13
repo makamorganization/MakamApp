@@ -21,6 +21,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -140,8 +141,8 @@ public class CourseServiceImpl implements CourseService {
         if (courseParticipantsCount == course.getMaximumNumberOfParticipants()) {
             throw new FullNumberOfParticipantsInCourseException("Course has full number of participants");
         }
-        LocalDate actualDate = LocalDate.now();
-        if (actualDate.isBefore(course.getRegisterStartDate())) {
+        Long actualTimeStampp = System.currentTimeMillis();
+        if (actualTimeStampp < course.getRegisterStartDate()) {
             throw new BadRequestAlertException("Course register date has not started yet", "course", "400");
         }
         CourseParticipant courseParticipant = new CourseParticipant();

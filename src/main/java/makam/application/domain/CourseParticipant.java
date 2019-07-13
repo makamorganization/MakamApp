@@ -41,6 +41,14 @@ public class CourseParticipant implements Serializable {
     @JsonIgnoreProperties("courseParticipants")
     private UserDetails user;
 
+    public UserDetails getUser() {
+        return user;
+    }
+
+    public void setUser(UserDetails user) {
+        this.user = user;
+    }
+
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;
@@ -102,18 +110,6 @@ public class CourseParticipant implements Serializable {
         this.course = course;
     }
 
-    public UserDetails getUser() {
-        return user;
-    }
-
-    public CourseParticipant user(UserDetails userDetails) {
-        this.user = userDetails;
-        return this;
-    }
-
-    public void setUser(UserDetails userDetails) {
-        this.user = userDetails;
-    }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
     @Override

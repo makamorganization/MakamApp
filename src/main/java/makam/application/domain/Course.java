@@ -8,10 +8,8 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import javax.persistence.*;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.Objects;
 
 /**
  * A Course.
@@ -34,16 +32,16 @@ public class Course implements Serializable {
     private String description;
 
     @Column(name = "course_start_date")
-    private LocalDate courseStartDate;
+    private Long courseStartDate;
 
     @Column(name = "course_end_date")
-    private LocalDate courseEndDate;
+    private Long courseEndDate;
 
     @Column(name = "register_start_date")
-    private LocalDate registerStartDate;
+    private Long registerStartDate;
 
     @Column(name = "register_end_date")
-    private LocalDate registerEndDate;
+    private Long registerEndDate;
 
     @Column(name = "duration")
     private Long duration;
@@ -66,7 +64,7 @@ public class Course implements Serializable {
     @Column(name = "is_visible_in_app")
     private Boolean isVisibleInApp;
 
-    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "course", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<CourseParticipant> courseParticipants = new HashSet<>();
 
@@ -109,55 +107,55 @@ public class Course implements Serializable {
         this.description = description;
     }
 
-    public LocalDate getCourseStartDate() {
+    public Long getCourseStartDate() {
         return courseStartDate;
     }
 
-    public Course courseStartDate(LocalDate courseStartDate) {
+    public Course courseStartDate(Long courseStartDate) {
         this.courseStartDate = courseStartDate;
         return this;
     }
 
-    public void setCourseStartDate(LocalDate courseStartDate) {
+    public void setCourseStartDate(Long courseStartDate) {
         this.courseStartDate = courseStartDate;
     }
 
-    public LocalDate getCourseEndDate() {
+    public Long getCourseEndDate() {
         return courseEndDate;
     }
 
-    public Course courseEndDate(LocalDate courseEndDate) {
+    public Course courseEndDate(Long courseEndDate) {
         this.courseEndDate = courseEndDate;
         return this;
     }
 
-    public void setCourseEndDate(LocalDate courseEndDate) {
+    public void setCourseEndDate(Long courseEndDate) {
         this.courseEndDate = courseEndDate;
     }
 
-    public LocalDate getRegisterStartDate() {
+    public Long getRegisterStartDate() {
         return registerStartDate;
     }
 
-    public Course registerStartDate(LocalDate registerStartDate) {
+    public Course registerStartDate(Long registerStartDate) {
         this.registerStartDate = registerStartDate;
         return this;
     }
 
-    public void setRegisterStartDate(LocalDate registerStartDate) {
+    public void setRegisterStartDate(Long registerStartDate) {
         this.registerStartDate = registerStartDate;
     }
 
-    public LocalDate getRegisterEndDate() {
+    public Long getRegisterEndDate() {
         return registerEndDate;
     }
 
-    public Course registerEndDate(LocalDate registerEndDate) {
+    public Course registerEndDate(Long registerEndDate) {
         this.registerEndDate = registerEndDate;
         return this;
     }
 
-    public void setRegisterEndDate(LocalDate registerEndDate) {
+    public void setRegisterEndDate(Long registerEndDate) {
         this.registerEndDate = registerEndDate;
     }
 
