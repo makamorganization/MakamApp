@@ -123,6 +123,7 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
+    @Transactional
     public void singUpForCourse(Long courseId, Long userId) {
         Optional<Course> optionalCourse = courseRepository.findById(courseId);
         if (!optionalCourse.isPresent()) {
@@ -152,6 +153,7 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
+    @Transactional
     public void signOutFromCourse(Long courseId, Long userId) {
         Optional<Course> optionalCourse = courseRepository.findById(courseId);
         if (!optionalCourse.isPresent()) {
@@ -194,6 +196,7 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<CourseDTO> getCoursesForUser(Long userId) {
         return courseRepository.findAllByUserId(userId).stream()
             .map(courseMapper::toDto)
@@ -201,6 +204,7 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<CourseDTO> getCoursesExceptUser(Long userId) {
         List<Course> allCourses = courseRepository.findAll();
         List<Course> userCourses = courseRepository.findAllByUserId(userId);

@@ -84,22 +84,6 @@ public class CourseResource extends BaseResource {
     }
 
     /**
-     * {@code GET  /courses} : get all the courses.
-     *
-     * @param filter the filter of the request.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of courses in body.
-     */
-//    @GetMapping("/courses")
-//    public List<CourseDTO> getAllCourses(@RequestParam(required = false) String filter) {
-//        if ("certificate-is-null".equals(filter)) {
-//            log.debug("REST request to get all Courses where certificate is null");
-//            return courseService.findAllWhereCertificateIsNull();
-//        }
-//        log.debug("REST request to get all Courses");
-//        return courseService.findAll();
-//    }
-
-    /**
      * {@code GET  /courses/:id} : get the "id" course.
      *
      * @param id the id of the courseDTO to retrieve.
