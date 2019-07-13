@@ -4,6 +4,7 @@ import makam.application.MakamApp;
 import makam.application.domain.Course;
 import makam.application.repository.CourseRepository;
 import makam.application.service.CourseService;
+import makam.application.service.UserService;
 import makam.application.service.dto.CourseDTO;
 import makam.application.service.mapper.CourseMapper;
 import makam.application.web.rest.errors.ExceptionTranslator;
@@ -87,6 +88,9 @@ public class CourseResourceIT {
     private CourseService courseService;
 
     @Autowired
+    private UserService userService;
+
+    @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Autowired
@@ -108,7 +112,7 @@ public class CourseResourceIT {
     @BeforeEach
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final CourseResource courseResource = new CourseResource(courseService);
+        final CourseResource courseResource = new CourseResource(courseService, userService);
         this.restCourseMockMvc = MockMvcBuilders.standaloneSetup(courseResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)

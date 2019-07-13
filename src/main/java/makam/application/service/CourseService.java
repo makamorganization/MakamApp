@@ -47,9 +47,11 @@ public interface CourseService {
      */
     void delete(Long id);
 
-    void singUpForCourse(Long courseId);
+    void singUpForCourse(Long courseId, Long userId);
 
-    void signOutFromCourse(Long courseId);
+    void signOutFromCourse(Long courseId, Long userId);
 
-    List<CourseDTO> getCoursesForUser();
+    List<CourseDTO> getCoursesForUser(Long userId);
+
+    List<CourseDTO> getCoursesExceptUser(Long userId);
 }
